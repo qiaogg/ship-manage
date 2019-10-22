@@ -1,68 +1,39 @@
-<template>
-    <div>
-        <el-button type="text" @click="table = true">打开嵌套表格的 Drawer</el-button>
-        <el-drawer
-  title="我嵌套了表格!"
-  :visible.sync="table"
-  direction="rtl"
-  size="50%">
-   <el-table :data="gridData">
-      <el-table-column property="date" label="日期" width="150"></el-table-column>
-      <el-table-column property="name" label="姓名" width="200"></el-table-column>
-      <el-table-column property="address" label="地址"></el-table-column>
-    </el-table>
-</el-drawer>
-    </div>
-</template>
-<script>
-export default {
-  data() {
-    return {
-      table: false,
-      dialog: false,
-      loading: false,
-      gridData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
-      formLabelWidth: '80px'
-    };
-  },
-  methods: {
-    handleClose(done) {
-      this.$confirm('确定要提交表单吗？')
-        .then(_ => {
-          this.loading = true;
-          setTimeout(() => {
-            this.loading = false;
-            done();
-          }, 2000);
-        })
-        .catch(_ => {});
-    }
-  }
-}
-</script>   
+<template> 
+ <div > 
+  <div id="allmap" ref="allmap"></div> 
+  <router-view></router-view> 
+ </div> 
+</template> 
+<script> 
+export default { 
+ name: 'App', 
+ methods:{ 
+  map(){ 
+   let map =new BMap.Map(this.$refs.allmap); // 创建Map实例 
+   map.centerAndZoom(new BMap.Point(120.15, 30.28), 11);// 初始化地图,设置中心点坐标（经纬度/城市的名称）和地图级别 
+   map.addControl(new BMap.MapTypeControl({//添加地图类型控件 
+    mapTypes:[ 
+     BMAP_NORMAL_MAP, 
+     BMAP_HYBRID_MAP 
+    ]})); 
+   map.setCurrentCity("杭州");// 设置地图显示的城市 此项是必须设置的 
+   map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放 
+   //map.setMapStyle({style:'midnight'});//地图风格
+  } 
+ }, 
+ mounted(){ 
+  //调用上面个的函数
+  this.map() 
+ } 
+} 
+</script> 
+<style>
+/*设置地图的宽高*/
+#allmap{
+ margin-bottom:10px; 
+ height: 640px;
+ width:172vh; 
+ overflow: hidden;
+ padding-top: 0px; 
+} 
+</style>
