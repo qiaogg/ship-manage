@@ -10,7 +10,7 @@ export default {
  methods:{ 
   map(){ 
    let map =new BMap.Map(this.$refs.allmap); // 创建Map实例 
-   map.centerAndZoom(new BMap.Point(120.15, 30.28), 11);// 初始化地图,设置中心点坐标（经纬度/城市的名称）和地图级别 
+   map.centerAndZoom(new BMap.Point(120.15, 30.28), 7);// 初始化地图,设置中心点坐标（经纬度/城市的名称）和地图级别 
    map.addControl(new BMap.MapTypeControl({//添加地图类型控件 
     mapTypes:[ 
      BMAP_NORMAL_MAP, 
@@ -31,8 +31,8 @@ export default {
 /*设置地图的宽高*/
 #allmap{
  margin-bottom:10px; 
- height: 640px;
- width:172vh; 
+ height: 622px;
+ width:165vh; 
  overflow: hidden;
  padding-top: 0px; 
 } 

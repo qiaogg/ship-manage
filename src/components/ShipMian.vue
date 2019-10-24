@@ -41,15 +41,15 @@
                       </el-submenu>
                       <el-submenu index="3">
                          <template slot="title">
-                            <i class="el-icon-location"></i>
+                            <i class="el-icon-ship"></i>
                             <span>船舶管理</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">船舶查询</el-menu-item>
-                            <el-menu-item index="1-2">无动力船舶</el-menu-item>
-                            <el-menu-item index="1-2">区域回放</el-menu-item>
-                            <el-menu-item index="1-2">船舶追踪</el-menu-item>
-                            <el-menu-item index="1-2">编组管理</el-menu-item>
+                            <el-menu-item index="/ShipManage/Search">船舶查询</el-menu-item>
+                            <el-menu-item index="/ShipManage/NoPowerSearch">无动力船舶</el-menu-item>
+                            <el-menu-item index="/ShipManage/ShipTrace">区域回放</el-menu-item>
+                            <el-menu-item index="/ShipManage/ShipTrace">船舶追踪</el-menu-item>
+                            <el-menu-item index="/ShipManage/GroupManage">编组管理</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="4">
@@ -99,7 +99,7 @@
                  </el-menu>
             </el-aside>
             <el-container>
-                <el-header  style="width:172vh; margin-right:200px" class="icon">
+                <el-header  style="width:169vh; margin-right:200px" class="icon">
                     <div style="margin-right:490px">
                      <el-tooltip content="圆形搜索" placement="top">
                           <el-button  icon="el-icon-search" circle></el-button>
@@ -147,16 +147,16 @@
                             <el-button  icon="el-icon-phone" circle></el-button>
                      </el-tooltip> 
                     </div>
-                    <el-button icon="el-icon-caret-left" style="width:3rem;height: 3rem;position: fixed;bottom: 2rem;right: 2rem;z-index: 9999;bottom:37rem" @click="table2 = true"></el-button>
+                    <el-button icon="el-icon-caret-left" size="mini" style="width:2px;height:40px;position: fixed;bottom: 2rem;right: 2rem;z-index: 9999;bottom:35rem" @click="table2 = true"></el-button>
                 </el-header>
-                <el-main style="width:172vh">
+                <el-main style="width:169vh">
                     <transition>                      
                             <router-view></router-view>
                     </transition>
                 </el-main>
             </el-container>
         </el-container>
-         <el-button icon="el-icon-caret-top" style="width:3rem;height: 3rem;position: fixed;bottom: 2rem;right: 5rem;z-index: 9999;" @click="table = true"></el-button>
+         <el-button icon="el-icon-caret-top" size="mini" style="position: fixed;bottom: 2rem;right: 5rem;z-index: 9999;" @click="table = true"></el-button>
          <el-drawer
              :visible.sync="table"
              direction="btt"
@@ -306,8 +306,8 @@ export default {
 </script>
 <style scoped>
 .Main{
-    width: 200vh;
-    height: 98vh;
+    width: 190vh;
+    height: 97vh;
 }
 h2{
     color: #909399;

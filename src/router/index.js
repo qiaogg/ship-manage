@@ -6,9 +6,11 @@ import system from '@/components/System/system'
 import Password from '@/components/System/Password'
 import Sound from '@/components/System/Sound'
 import Test_distance from '@/components/Manage/Test_distance'
-
+import Search from '@/components/ShipManage/Search'
+import NoPowerSearch from '@/components/ShipManage/NoPowerSearch'
+import ShipTrace from '@/components/ShipManage/ShipTrace'
+import GroupManage from '@/components/ShipManage/GroupManage'
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {
@@ -35,6 +37,26 @@ export default new Router({
           path: '/Manage/Test_distance',
           name: 'Test_distance',
           component: Test_distance,
+        },
+        {
+          path: '/ShipManage/Search',
+          name: 'Search',
+          component: Search,
+        },
+        {
+          path: '/ShipManage/NoPowerSearch',
+          name: 'NoPowerSearch',
+          component: NoPowerSearch,
+        },
+        {
+          path: '/ShipManage/ShipTrace',
+          name: 'ShipTrace',
+          component: ShipTrace,
+        },
+        {
+          path: '/ShipManage/GroupManage',
+          name: 'GroupManage',
+          component: GroupManage,
         }
       ]
     }
