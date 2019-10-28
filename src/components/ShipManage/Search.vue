@@ -30,7 +30,7 @@
                      </el-date-picker>
                  </el-col>
                  <el-col :span="2" :offset="5">
-                      <el-button type="primary" style="width:150px">查询</el-button>
+                      <el-button type="primary" style="width:150px" >查询</el-button>
                  </el-col>
              </el-row>
                <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
