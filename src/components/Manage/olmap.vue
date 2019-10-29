@@ -22,6 +22,11 @@ export default {
                   source: new XYZ({
                       url:'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'
                   })
+              }),
+               new TileLayer({
+                  source: new XYZ({
+                      url:'http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}'
+                  })
               })
           ],
           view: new View({
