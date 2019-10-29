@@ -58,10 +58,10 @@
                             <span>报警救援</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">报警查询</el-menu-item>
+                            <el-menu-item index="/Alarm/AlarmSearch">报警查询</el-menu-item>
                             <el-menu-item index="1-2">视屏通话</el-menu-item>
-                            <el-menu-item index="1-2">港口查询</el-menu-item>
-                            <el-menu-item index="1-2">船舶救援</el-menu-item>
+                            <el-menu-item index="/Alarm/PortSearch">港口查询</el-menu-item>
+                            <el-menu-item index="/Alarm/Rescue">船舶救援</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="5">

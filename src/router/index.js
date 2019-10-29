@@ -10,6 +10,10 @@ import Search from '@/components/ShipManage/Search'
 import NoPowerSearch from '@/components/ShipManage/NoPowerSearch'
 import ShipTrace from '@/components/ShipManage/ShipTrace'
 import GroupManage from '@/components/ShipManage/GroupManage'
+import AlarmSearch from '@/components/Alarm/AlarmSearch'
+import PortSearch from '@/components/Alarm/Portsearch'
+import Rescue from '@/components/Alarm/Rescue'
+
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -57,6 +61,21 @@ export default new Router({
           path: '/ShipManage/GroupManage',
           name: 'GroupManage',
           component: GroupManage,
+        },
+        {
+          path: '/Alarm/AlarmSearch',
+          name: 'AlarmSearch',
+          component: AlarmSearch,
+        },
+        {
+          path: '/Alarm/PortSearch',
+          name: 'PortSearch',
+          component: PortSearch,
+        },
+        {
+          path: '/Alarm/Rescue',
+          name: 'Rescue',
+          component: Rescue,
         }
       ]
     }
