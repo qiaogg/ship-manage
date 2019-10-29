@@ -32,7 +32,7 @@
                             <span>海图管理</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="/Manage/Test_distance">海图测距</el-menu-item>
+                            <el-menu-item index="/Manage/olmap">海图测距</el-menu-item>
                             <el-menu-item index="1-2">海图测面</el-menu-item>
                             <el-menu-item index="1-2">海图拍照</el-menu-item>
                             <el-menu-item index="1-2">海图打印</el-menu-item>
