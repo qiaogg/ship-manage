@@ -5,7 +5,8 @@ import ShipMian from '@/components/ShipMian'
 import system from '@/components/System/system'
 import Password from '@/components/System/Password'
 import Sound from '@/components/System/Sound'
-import Test_distance from '@/components/Manage/Test_distance'
+//import Test_distance from '@/components/Manage/Test_distance'
+import olmap from '@/components/Manage/olmap'
 import Search from '@/components/ShipManage/Search'
 import NoPowerSearch from '@/components/ShipManage/NoPowerSearch'
 import ShipTrace from '@/components/ShipManage/ShipTrace'
@@ -38,9 +39,9 @@ export default new Router({
           component: Sound,
         },
         {
-          path: '/Manage/Test_distance',
-          name: 'Test_distance',
-          component: Test_distance,
+          path: '/Manage/olmap',
+          name: 'olmap',
+          component: olmap,
         },
         {
           path: '/ShipManage/Search',
