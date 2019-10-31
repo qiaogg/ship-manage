@@ -71,8 +71,8 @@
                          </template>
                         <el-menu-item-group>
                             <el-menu-item index="1-1">添加警戒</el-menu-item>
-                            <el-menu-item index="1-2">精确添加警戒</el-menu-item>
-                            <el-menu-item index="1-2">查询警戒</el-menu-item>
+                            <el-menu-item index="/WarnRegion/ExactAdd">精确添加警戒</el-menu-item>
+                            <el-menu-item index="/WarnRegion/Seewarn">查询警戒</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="6">
@@ -81,8 +81,8 @@
                             <span>查询统计</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">数据源统计</el-menu-item>
-                            <el-menu-item index="1-2">航程统计</el-menu-item>
+                            <el-menu-item index="/Searchcount/Searchdata">数据源统计</el-menu-item>
+                            <el-menu-item index="/Searchcount/Sailcount">航程统计</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="7">
