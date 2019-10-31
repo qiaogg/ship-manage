@@ -6,11 +6,19 @@ import system from '@/components/System/system'
 import Password from '@/components/System/Password'
 import Sound from '@/components/System/Sound'
 //import Test_distance from '@/components/Manage/Test_distance'
-import olmap from '@/components/MapManage/olmap'     
 import Search from '@/components/ShipManage/Search'
 import NoPowerSearch from '@/components/ShipManage/NoPowerSearch'
 import ShipTrace from '@/components/ShipManage/ShipTrace'
 import GroupManage from '@/components/ShipManage/GroupManage'
+import AlarmSearch from '@/components/Alarm/AlarmSearch'
+import PortSearch from '@/components/Alarm/Portsearch'
+import Rescue from '@/components/Alarm/Rescue'
+import ExactAdd from '@/components/WarnRegion/ExactAdd'
+import Seewarn from '@/components/WarnRegion/Seewarn'
+import Searchdata from '@/components/Searchcount/Searchdata'
+import Sailcount from '@/components/Searchcount/Sailcount'
+import olmap from '@/components/MapManage/olmap'
+
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -35,7 +43,7 @@ export default new Router({
           component: Sound,
         },
         {
-          path: '/Manage/olmap',
+          path: '/MapManage/olmap',
           name: 'olmap',
           component: olmap,
         },
@@ -58,6 +66,41 @@ export default new Router({
           path: '/ShipManage/GroupManage',
           name: 'GroupManage',
           component: GroupManage,
+        },
+        {
+          path: '/Alarm/AlarmSearch',
+          name: 'AlarmSearch',
+          component: AlarmSearch,
+        },
+        {
+          path: '/Alarm/PortSearch',
+          name: 'PortSearch',
+          component: PortSearch,
+        },
+        {
+          path: '/Alarm/Rescue',
+          name: 'Rescue',
+          component: Rescue,
+        },
+        {
+          path: '/WarnRegion/ExactAdd',
+          name: 'ExactAdd',
+          component: ExactAdd,
+        },
+        {
+          path: '/WarnRegion/Seewarn',
+          name: 'Seewarn',
+          component: Seewarn,
+        },
+        {
+          path: '/Searchcount/Searchdata',
+          name: 'Searchdata',
+          component: Searchdata,
+        },
+        {
+          path: '/Searchcount/Sailcount',
+          name: 'Sailcount',
+          component: Sailcount,
         }
       ]
     }

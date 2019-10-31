@@ -32,7 +32,7 @@
                             <span>海图管理</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="/Manage/olmap">海图测距</el-menu-item>
+                            <el-menu-item index="/MapManage/olmap">海图测距</el-menu-item>
                             <el-menu-item index="1-2">海图测面</el-menu-item>
                             <el-menu-item index="1-2">海图拍照</el-menu-item>
                             <el-menu-item index="1-2">海图打印</el-menu-item>
@@ -58,10 +58,10 @@
                             <span>报警救援</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">报警查询</el-menu-item>
+                            <el-menu-item index="/Alarm/AlarmSearch">报警查询</el-menu-item>
                             <el-menu-item index="1-2">视屏通话</el-menu-item>
-                            <el-menu-item index="1-2">港口查询</el-menu-item>
-                            <el-menu-item index="1-2">船舶救援</el-menu-item>
+                            <el-menu-item index="/Alarm/PortSearch">港口查询</el-menu-item>
+                            <el-menu-item index="/Alarm/Rescue">船舶救援</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="5">
@@ -71,8 +71,8 @@
                          </template>
                         <el-menu-item-group>
                             <el-menu-item index="1-1">添加警戒</el-menu-item>
-                            <el-menu-item index="1-2">精确添加警戒</el-menu-item>
-                            <el-menu-item index="1-2">查询警戒</el-menu-item>
+                            <el-menu-item index="/WarnRegion/ExactAdd">精确添加警戒</el-menu-item>
+                            <el-menu-item index="/WarnRegion/Seewarn">查询警戒</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="6">
@@ -81,8 +81,8 @@
                             <span>查询统计</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">数据源统计</el-menu-item>
-                            <el-menu-item index="1-2">航程统计</el-menu-item>
+                            <el-menu-item index="/Searchcount/Searchdata">数据源统计</el-menu-item>
+                            <el-menu-item index="/Searchcount/Sailcount">航程统计</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="7">
