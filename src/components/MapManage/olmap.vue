@@ -7,9 +7,10 @@
 <script> 
 import "ol/ol.css"
 import { Map, View } from "ol"
-import TileLayer from "ol/layer/Tile"
+import Tile from "ol/layer/Tile"
 import OSM from "ol/source/OSM"
 import XYZ from "ol/source/XYZ"
+import addShip from "../../js/addShipLayer"
 export default { 
  name: 'App', 
  methods:{ 
@@ -18,12 +19,12 @@ export default {
       this.allmap = new Map({
           target:"allmap",
           layers:[
-              new TileLayer({
+              new Tile({
                   source: new XYZ({
                       url:'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'
                   })
               }),
-               new TileLayer({
+               new Tile({
                   source: new XYZ({
                       url:'http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}'
                   })
@@ -38,7 +39,8 @@ export default {
  }, 
     mounted(){ 
     //调用上面个的函数
-    this.map() 
+        this.map();
+        //addShip();
     } 
  } 
 </script> 
