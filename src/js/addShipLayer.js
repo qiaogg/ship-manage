@@ -1,31 +1,33 @@
-import Vector from "ol/layer/Vector"
-import {Style, Icon}  from "ol/style"
-import Feature from "ol/Feature"
-import Point from "ol/geom/Point"
+import VectorLayer from 'ol/layer/Vector'
+import {Vector} from 'ol/source';
+import Icon from 'ol/style/Icon'
+import Style from 'ol/style/Style'
+import Feature from 'ol/Feature'
+import Point from 'ol/geom/Point'
+import {fromLonLat} from 'ol/proj';
 
-export default function addShip(){
-   // alert();
-    var shipLayer = new Vector({
+export default function addShip(map){
+    var shipLayer = new VectorLayer({
         source: new Vector()
-    });
+    })
 
-    var shipX = [116.3,123.11,123.9,124];
-    var shipY = [39.9,30,31,31.5];
+    var shipX = [116.3,123.11,123.9,124]
+    var shipY = [39.9,30,31,31.5]
 
     var style = new Style({
         image: new Icon({
-            src: "./assets/ship.png"
+           src:'../../static/images/ship.png'
         })
-    });
+    })
     
    for (var i = 0; i < 4; i++){
 		var imgFeature = new Feature({
-			geometry: new Point([shipX[i],shipY[i]])
+            type: 'icon',
+			geometry: new Point(fromLonLat([shipX[i],shipY[i]]))
 		});
 		imgFeature.setStyle(style);
-        // shipLayer.getSource().addFeature(imgFeature);
-        var s = shipLayer.getSource();
-        s.addFeature(imgFeature);
-    };
+        shipLayer.getSource().addFeature(imgFeature);
+    }
+    map.addLayer(shipLayer)
 }
 

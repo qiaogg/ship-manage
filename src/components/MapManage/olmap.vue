@@ -10,13 +10,21 @@ import { Map, View } from "ol"
 import Tile from "ol/layer/Tile"
 import OSM from "ol/source/OSM"
 import XYZ from "ol/source/XYZ"
+import {transform} from 'ol/proj'
+import {toLonLat} from 'ol/proj'
 import addShip from "../../js/addShipLayer"
 export default { 
  name: 'App', 
+ data(){
+     return{
+         map: null,
+        ship: null
+     }
+ },
  methods:{ 
-  map(){ 
-     // var mapcontainer = this.$refs.allmap;
-      this.allmap = new Map({
+  drawMap(){ 
+        var _this = this;
+        _this.map = new Map({
           target:"allmap",
           layers:[
               new Tile({
@@ -31,16 +39,24 @@ export default {
               })
           ],
           view: new View({
-              projection: "EPSG:4326",
-              center:[114,28],
+             // projection: "EPSG:4326",
+              center:transform([117,30],'EPSG:4326','EPSG:3857'),
               zoom:6
           })
-      })}
- }, 
+      })
+    },
+    //鼠标经纬度
+    mouseSite(){
+        var _this = this;
+        _this.map.on('pointermove',function(){
+            console.log(transform(_this.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
+      })
+    }
+},
     mounted(){ 
-    //调用上面个的函数
-        this.map();
-        //addShip();
+        this.drawMap();
+        // this.mouseSite();
+        this.ship = addShip(this.map);
     } 
  } 
 </script> 
