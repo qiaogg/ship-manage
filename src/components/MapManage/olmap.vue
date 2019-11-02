@@ -1,6 +1,10 @@
 <template> 
  <div > 
   <div id="allmap" ref="allmap"></div> 
+  <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+ </div>
   <router-view></router-view> 
  </div> 
 </template> 
@@ -13,12 +17,19 @@ import XYZ from "ol/source/XYZ"
 import {transform} from 'ol/proj'
 import {toLonLat} from 'ol/proj'
 import addShip from "../../js/addShipLayer"
+import showShipMsg from "../../js/showShipMsg"
+
 export default { 
  name: 'App', 
  data(){
      return{
          map: null,
-        ship: null
+        ship: null,
+        shipMsgDiv: {
+            container: 'popup',
+            content: 'popup-content',
+            closer:'popup-closer'
+        }
      }
  },
  methods:{ 
@@ -56,7 +67,8 @@ export default {
     mounted(){ 
         this.drawMap();
         // this.mouseSite();
-        this.ship = addShip(this.map);
+        addShip(this.map,this.shipMsgDiv);
+      // showShipMsg(this.map,this.shipMsgDiv);
     } 
  } 
 </script> 
@@ -69,4 +81,50 @@ export default {
  overflow: hidden;
  padding-top: 0px; 
 } 
+    /**船信息图框样式 */
+      .ol-popup {
+        position: absolute;
+        background-color: white;
+        -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+        filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+      }
+      .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+      .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+      }
+      .ol-popup-closer:after {
+        content: "✖";
+      }
+
+
+
 </style>
