@@ -1,10 +1,12 @@
 <template> 
  <div > 
   <div id="allmap" ref="allmap"></div> 
+  <!-- 船信息显示 start-->
   <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div id="popup-content"></div>
  </div>
+ <!-- 船信息显示 end-->
   <router-view></router-view> 
  </div> 
 </template> 
@@ -87,12 +89,12 @@ export default {
         background-color: white;
         -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
         filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px;
         border: 1px solid #cccccc;
         bottom: 12px;
         left: -50px;
-        min-width: 280px;
+        min-width: 200px;
       }
       .ol-popup:after, .ol-popup:before {
         top: 100%;
@@ -124,7 +126,10 @@ export default {
       .ol-popup-closer:after {
         content: "✖";
       }
-
+      #popup-content {
+        line-height: 1px;
+        font-size: 14px
+      }
 
 
 </style>
