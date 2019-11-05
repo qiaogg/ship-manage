@@ -1,6 +1,13 @@
 <template> 
  <div > 
   <div id="allmap" ref="allmap"></div> 
+   <form class="form-inline">
+      <label>Measurement type &nbsp;</label>
+      <select id="type">
+        <option value="length">Length (LineString)</option>
+        <option value="area">Area (Polygon)</option>
+      </select>
+    </form>
   <!-- 船信息显示 start-->
   <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -19,7 +26,7 @@ import XYZ from "ol/source/XYZ"
 import {transform} from 'ol/proj'
 import {toLonLat} from 'ol/proj'
 import addShip from "../../js/addShipLayer"
-import showShipMsg from "../../js/showShipMsg"
+import measureAreaAndDistance from "../../js/measureAreaAndDistance"
 
 export default { 
  name: 'App', 
@@ -27,11 +34,7 @@ export default {
      return{
          map: null,
         ship: null,
-        shipMsgDiv: {
-            container: 'popup',
-            content: 'popup-content',
-            closer:'popup-closer'
-        }
+        _this: this
      }
  },
  methods:{ 
@@ -60,17 +63,18 @@ export default {
     },
     //鼠标经纬度
     mouseSite(){
-        var _this = this;
-        _this.map.on('pointermove',function(){
-            console.log(transform(_this.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
+      var _this = this;
+      _this.map.on('pointermove',function(){
+          console.log(transform(_this.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
       })
     }
 },
     mounted(){ 
         this.drawMap();
         // this.mouseSite();
-        addShip(this.map,this.shipMsgDiv);
+        addShip(this.map);
       // showShipMsg(this.map,this.shipMsgDiv);
+      //measureAreaAndDistance(this.map);
     } 
  } 
 </script> 
@@ -83,7 +87,7 @@ export default {
  overflow: hidden;
  padding-top: 0px; 
 } 
-    /**船信息图框样式 */
+    /**船信息图框样式 start*/
       .ol-popup {
         position: absolute;
         background-color: white;
@@ -130,6 +134,40 @@ export default {
         line-height: 1px;
         font-size: 14px
       }
+     /**船信息图框样式 end*/
 
 
+    .ol-tooltip {
+      position: relative;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      color: white;
+      padding: 4px 8px;
+      opacity: 0.7;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+    .ol-tooltip-measure {
+      opacity: 1;
+      font-weight: bold;
+    }
+    .ol-tooltip-static {
+      background-color: #ffcc33;
+      color: black;
+      border: 1px solid white;
+    }
+    .ol-tooltip-measure:before,
+    .ol-tooltip-static:before {
+      border-top: 6px solid rgba(0, 0, 0, 0.5);
+      border-right: 6px solid transparent;
+      border-left: 6px solid transparent;
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      margin-left: -7px;
+      left: 50%;
+    }
+    .ol-tooltip-static:before {
+      border-top-color: #ffcc33;
+    }
 </style>

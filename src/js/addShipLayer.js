@@ -8,7 +8,7 @@ import {fromLonLat,transform} from 'ol/proj'
 import Overlay from 'ol/Overlay'
 import {toStringHDMS} from 'ol/coordinate'
 
-export default function addShip(map,shipMsgDiv){
+export default function addShip(map){
     var coordinate = null
     var shipLayer = new VectorLayer({
         source: new Vector()
@@ -35,9 +35,9 @@ export default function addShip(map,shipMsgDiv){
         coordinate = event.coordinate
     }) 
 
-    var contaioner = document.getElementById(shipMsgDiv.container)
-    var content = document.getElementById(shipMsgDiv.content)
-    var closer = document.getElementById(shipMsgDiv.closer)
+    var contaioner = document.getElementById('popup')
+    var content = document.getElementById('popup-content')
+    var closer = document.getElementById('popup-closer')
     // 创建一个overlay, 绑定html元素container
     var overlay = new Overlay({
         element: contaioner,
@@ -58,32 +58,36 @@ export default function addShip(map,shipMsgDiv){
 		var shipFeature = new Feature({
 			geometry: new Point(fromLonLat([shipX[i],shipY[i]]))
         })
-        shipFeature.setProperties(shipInfo)       
+        shipFeature.setProperties(shipInfo)  
+        shipFeature.setId(i+1)    
 		shipFeature.setStyle(style);
         shipLayer.getSource().addFeature(shipFeature)
     }
     map.addLayer(shipLayer)
 
     function showShipInfo(event){
+        console.log(coordinate)
         var hdms = toStringHDMS(transform(coordinate, 'EPSG:3857', 'EPSG:4326'))
         var features = map.getFeaturesAtPixel(event.pixel)
         if (features.length != 0) {
-            var properties = features[0].getProperties()
-            content.innerHTML = '<p>You clicked here:</p>' + hdms 
-            +'<p>'+'JSXX:'+properties.JSXX+ '</p>'
-            +'<p>'+'船长:'+properties.船长+ '</p>'
-            +'<p>'+'终端卡号:'+properties.终端卡号+'</p>'
-            +'<p>'+'报警时间:'+properties.报警时间+ '</p>'
-            +'<p>'+'报警类型:'+properties.报警类型+ '</p>'
-            +'<p>'+'经度:'+properties.经度+ '</p>'         
-            +'<p>'+'纬度:'+properties.纬度+ '</p>'
-            +'<p>'+'速度:'+properties.速度+ '</p>'
-            +'<p>'+'方向:'+properties.方向+ '</p>'
-            +'<p>'+'温度:'+properties.温度+ '</p>'
-            +'<p>'+'电池状态:'+properties.电池状态+ '</p>'
-            +'<p>'+'未知:'+properties.未知+'</p>'
-            overlay.setPosition(coordinate)
-            map.addOverlay(overlay)
+            if (features[0].getId()){
+                var properties = features[0].getProperties()
+                content.innerHTML = '<p>You clicked here:</p>' + hdms 
+                +'<p>'+'JSXX:'+properties.JSXX+ '</p>'
+                +'<p>'+'船长:'+properties.船长+ '</p>'
+                +'<p>'+'终端卡号:'+properties.终端卡号+ '</p>'
+                +'<p>'+'报警时间:'+properties.报警时间+ '</p>'
+                +'<p>'+'报警类型:'+properties.报警类型+ '</p>'
+                +'<p>'+'经度:'+properties.经度+ '</p>'         
+                +'<p>'+'纬度:'+properties.纬度+ '</p>'
+                +'<p>'+'速度:'+properties.速度+ '</p>'
+                +'<p>'+'方向:'+properties.方向+ '</p>'
+                +'<p>'+'温度:'+properties.温度+ '</p>'
+                +'<p>'+'电池状态:'+properties.电池状态+ '</p>'
+                +'<p>'+'未知:'+properties.未知+'</p>'
+                overlay.setPosition(coordinate)
+                map.addOverlay(overlay)
+            }
         }
     }
     map.on('click',showShipInfo)
