@@ -27,6 +27,7 @@ import {transform} from 'ol/proj'
 import {toLonLat} from 'ol/proj'
 import addShip from "../../js/addShipLayer"
 import measureAreaAndDistance from "../../js/measureAreaAndDistance"
+import showShipTrace from '../../js/showShipTrace'
 
 export default { 
  name: 'App', 
@@ -75,7 +76,8 @@ export default {
         addShip(this.map);
       // showShipMsg(this.map,this.shipMsgDiv);
       //measureAreaAndDistance(this.map);
-    } 
+      showShipTrace(this.map);
+      } 
  } 
 </script> 
 <style>

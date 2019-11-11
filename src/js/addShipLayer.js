@@ -8,6 +8,7 @@ import {fromLonLat,transform} from 'ol/proj'
 import Overlay from 'ol/Overlay'
 import {toStringHDMS} from 'ol/coordinate'
 
+
 export default function addShip(map){
     var coordinate = null
     var shipLayer = new VectorLayer({
@@ -66,7 +67,6 @@ export default function addShip(map){
     map.addLayer(shipLayer)
 
     function showShipInfo(event){
-        console.log(coordinate)
         var hdms = toStringHDMS(transform(coordinate, 'EPSG:3857', 'EPSG:4326'))
         var features = map.getFeaturesAtPixel(event.pixel)
         if (features.length != 0) {
