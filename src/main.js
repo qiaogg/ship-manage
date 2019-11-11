@@ -34,11 +34,11 @@ new Vue({
     xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
     soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
     <soap:Body>\
-    <UserWebServiceService:getAllNations><arg0>{"userId":"qQ0CsBemyq1DlGgtJRKK6WVUwQTmnei5"}</arg0></UserWebServiceService:getAllNations>\
+    <UserWebServiceService:CheckUsernameAndPassword><arg0>{"username":"CTBTforV","password":"123456"}</arg0></UserWebServiceService:CheckUsernameAndPassword>\
     </soap:Body>\
     </soap:Envelope>'
     this.$axios
-    .post('/api/CTBT/services/Area',xmls)
+    .post('/api/CTBT/services/User',xmls)
     .then(function(response){             
       console.log(response.data)
     })
