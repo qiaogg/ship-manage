@@ -74,9 +74,8 @@ export default {
         this.drawMap();
         // this.mouseSite();
         addShip(this.map);
-      // showShipMsg(this.map,this.shipMsgDiv);
-      //measureAreaAndDistance(this.map);
-      showShipTrace(this.map);
+        //measureAreaAndDistance(this.map);
+        showShipTrace(this.map);
       } 
  } 
 </script> 
