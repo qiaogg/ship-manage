@@ -3,12 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import ElementUI from 'element-ui';
+import ElementUI, { Col } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 //import VueAxios from 'vue-axios'
 //引入echarts
 import echarts from 'echarts'
+import { cpus } from 'os';
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts 
 Vue.config.productionTip = false
@@ -34,17 +35,18 @@ new Vue({
     xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
     soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
     <soap:Body>\
-    <UserWebServiceService:CheckUsernameAndPassword><arg0>{"username":"CTBTforV","password":"123456"}</arg0></UserWebServiceService:CheckUsernameAndPassword>\
+    <UserWebServiceService:CheckUsernameAndPassword><arg0>{"username":"CTBTfor","password":"123456"}</arg0></UserWebServiceService:CheckUsernameAndPassword>\
     </soap:Body>\
     </soap:Envelope>'
     this.$axios
-    .post('/api/CTBT/services/User',xmls)
+    .post('/api/CTBT/services/User',xmls,{headers: {'Content-Type': 'application/json;charset=UTF-8'}})
     .then(function(response){             
       console.log(response.data)
     })
     .catch(function (error) { // 请求失败处理
       console.log(error)
     });
+
   }
 })
 /**
