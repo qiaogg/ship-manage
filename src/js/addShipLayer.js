@@ -28,7 +28,8 @@ export default function addShip(map){
 
     var style = new Style({
         image: new Icon({
-           src:'../../static/images/ship.png'
+           src:'../../static/images/ship_normal.png',
+           rotation: 1
         })
     })
     //为map添加点击事件获取点击处的坐标
@@ -66,7 +67,6 @@ export default function addShip(map){
     },1000)
 
     function ship(shipId,offSize){
-        console.log(i)
         if (i != 0){
             var feature = shipLayer.getSource().getFeatureById(shipId)        
             shipLayer.getSource().removeFeature(feature)
@@ -79,8 +79,6 @@ export default function addShip(map){
 		shipFeature.setStyle(style);
         shipLayer.getSource().addFeature(shipFeature)
     }
-
-
 
 
     function showShipInfo(event){

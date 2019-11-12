@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
+import xmlToJson from './js/utils/xmlToJson'
 //import VueAxios from 'vue-axios'
 //引入echarts
 import echarts from 'echarts'
@@ -41,6 +42,8 @@ new Vue({
     .post('/api/CTBT/services/User',xmls)
     .then(function(response){             
       console.log(response.data)
+      xmlToJson(response.data)
+
     })
     .catch(function (error) { // 请求失败处理
       console.log(error)
