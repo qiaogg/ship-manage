@@ -6,6 +6,7 @@ import system from '@/components/System/system'
 import Password from '@/components/System/Password'
 import Sound from '@/components/System/Sound'
 //import Test_distance from '@/components/Manage/Test_distance'
+import MyShips from '@/components/ShipManage/MyShips'
 import Search from '@/components/ShipManage/Search'
 import NoPowerSearch from '@/components/ShipManage/NoPowerSearch'
 import ShipTrace from '@/components/ShipManage/ShipTrace'
@@ -55,10 +56,16 @@ export default new Router({
           component: olmap,
         },
         {
+          path: '/ShipManage/MyShips',
+          name: 'MyShips',
+          component: MyShips,
+        },
+        {
           path: '/ShipManage/Search',
           name: 'Search',
           component: Search,
         },
+
         {
           path: '/ShipManage/NoPowerSearch',
           name: 'NoPowerSearch',

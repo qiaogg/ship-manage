@@ -45,6 +45,7 @@
                             <span>船舶管理</span>
                          </template>
                         <el-menu-item-group>
+                            <el-menu-item index="/ShipManage/MyShips">我的船舶</el-menu-item>
                             <el-menu-item index="/ShipManage/Search">船舶查询</el-menu-item>
                             <el-menu-item index="/ShipManage/NoPowerSearch">无动力船舶</el-menu-item>
                             <el-menu-item index="/ShipManage/ShipTrace">区域回放</el-menu-item>
