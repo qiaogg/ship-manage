@@ -8,7 +8,7 @@ import VectorLayer from 'ol/layer/Vector'
 import {Vector as VectorSource} from 'ol/source';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 
-export default function measureAreaAndDistance(map){
+export default function measureAreaAndDistance(map,measureType){
 
     var source = new VectorSource();
 
@@ -116,7 +116,7 @@ export default function measureAreaAndDistance(map){
         helpTooltipElement.classList.add('hidden');
     });
 
-    var typeSelect = document.getElementById('type');
+   // var typeSelect = document.getElementById('type');
 
     var draw; // global so we can remove it later
 
@@ -159,7 +159,7 @@ export default function measureAreaAndDistance(map){
     };
 
     function addInteraction() {
-        var type = (typeSelect.value == 'area' ? 'Polygon' : 'LineString');
+        var type = (measureType == 'area' ? 'Polygon' : 'LineString');
         draw = new Draw({
             source: source,
             type: type,
@@ -263,10 +263,10 @@ export default function measureAreaAndDistance(map){
     /**
      * Let user change the geometry type.
      */
-    typeSelect.onchange = function() {
-        map.removeInteraction(draw);
-        addInteraction();
-    };
+    // typeSelect.onchange = function() {
+    //     map.removeInteraction(draw);
+    //     addInteraction();
+    // };
 
     addInteraction()
 

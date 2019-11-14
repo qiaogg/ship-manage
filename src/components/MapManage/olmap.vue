@@ -1,13 +1,6 @@
 <template> 
  <div > 
   <div id="allmap" ref="allmap"></div> 
-   <form class="form-inline">
-      <label>Measurement type &nbsp;</label>
-      <select id="type">
-        <option value="length">Length (LineString)</option>
-        <option value="area">Area (Polygon)</option>
-      </select>
-    </form>
   <!-- 船信息显示 start-->
   <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>

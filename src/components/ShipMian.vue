@@ -33,8 +33,8 @@
                          </template>
                         <el-menu-item-group>
                             <el-menu-item index="/MapManage/olmap">显示地图</el-menu-item>
-                            <el-menu-item @click="measureSea()">海图测距</el-menu-item>
-                            <el-menu-item @ index="1-2">海图测面</el-menu-item>
+                            <el-menu-item @click="measureSea('line')">海图测距</el-menu-item>
+                            <el-menu-item @click="measureSea('area')">海图测面</el-menu-item>
                             <el-menu-item index="1-2">海图拍照</el-menu-item>
                             <el-menu-item index="1-2">海图打印</el-menu-item>
                             <el-menu-item index="1-2">海图定位</el-menu-item>
@@ -307,9 +307,9 @@ export default {
       getMapObject(val){
           this.map = val
       },
-      measureSea(){
-          console.log(this.map)
-          measureAreaAndDistance(this.map)
+      measureSea(measureType){
+          console.log(measureType)
+          measureAreaAndDistance(this.map,measureType)
           //this.$emit('func')
       }    
     }
