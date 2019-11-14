@@ -32,8 +32,9 @@
                             <span>海图管理</span>
                          </template>
                         <el-menu-item-group>
-                            <el-menu-item index="/MapManage/olmap">海图测距</el-menu-item>
-                            <el-menu-item index="1-2">海图测面</el-menu-item>
+                            <el-menu-item index="/MapManage/olmap">显示地图</el-menu-item>
+                            <el-menu-item @click="measureSea()">海图测距</el-menu-item>
+                            <el-menu-item @ index="1-2">海图测面</el-menu-item>
                             <el-menu-item index="1-2">海图拍照</el-menu-item>
                             <el-menu-item index="1-2">海图打印</el-menu-item>
                             <el-menu-item index="1-2">海图定位</el-menu-item>
@@ -151,7 +152,7 @@
                 </el-header>
                 <el-main style="width:169vh">
                     <transition>                      
-                            <router-view></router-view>
+                            <router-view v-on:getMap="getMapObject"></router-view>
                     </transition>
                 </el-main>
             </el-container>
@@ -211,9 +212,11 @@
     </div>
 </template>
 <script>
+import measureAreaAndDistance from '../js/measureAreaAndDistance'
 export default {
     data(){
         return{
+            map:null,
              table: false,
              table2:false,
              dialog: false,
@@ -300,7 +303,15 @@ export default {
             message: '已取消'
           });          
         });
-      }
+      },
+      getMapObject(val){
+          this.map = val
+      },
+      measureSea(){
+          console.log(this.map)
+          measureAreaAndDistance(this.map)
+          //this.$emit('func')
+      }    
     }
 }
 </script>

@@ -68,7 +68,8 @@ export default function addShip(map){
 
     function ship(shipId,offSize){
         if (i != 0){
-            var feature = shipLayer.getSource().getFeatureById(shipId)        
+            var feature = shipLayer.getSource().getFeatureById(shipId)  
+            feature.getS      
             shipLayer.getSource().removeFeature(feature)
         }
         var shipFeature= new Feature({

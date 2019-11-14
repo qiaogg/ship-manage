@@ -71,7 +71,6 @@ export default function showShipTrace(map) {
     } else{
       shipIcon.setRotation(2)
     }
-    console.log(shipIcon.getRotation())
     shipFeature.setStyle(style);
     //shipFeature.setId(i)
     vectorLayer.getSource().addFeature(shipFeature)

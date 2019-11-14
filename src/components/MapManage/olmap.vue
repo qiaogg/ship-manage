@@ -30,12 +30,11 @@ import measureAreaAndDistance from "../../js/measureAreaAndDistance"
 import showShipTrace from '../../js/showShipTrace'
 
 export default { 
- name: 'App', 
+ name: 'App',
  data(){
      return{
          map: null,
         ship: null,
-        _this: this
      }
  },
  methods:{ 
@@ -61,6 +60,8 @@ export default {
               zoom:6
           })
       })
+      _this.$emit('getMap',_this.map)
+      
     },
     //鼠标经纬度
     mouseSite(){

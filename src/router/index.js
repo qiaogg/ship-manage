@@ -18,12 +18,19 @@ import Seewarn from '@/components/WarnRegion/Seewarn'
 import Searchdata from '@/components/Searchcount/Searchdata'
 import Sailcount from '@/components/Searchcount/Sailcount'
 import olmap from '@/components/MapManage/olmap'
+import TheLogin from '@/components/views/TheLogin'
+
 
 Vue.use(Router)
 export default new Router({
   routes: [
     {
       path: '/',
+      name: 'TheLogin',
+      component: TheLogin,
+    },
+    {
+      path: '/ShipMian',
       name: 'ShipMian',
       component: ShipMian,
       children:[

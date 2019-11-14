@@ -109,11 +109,7 @@ export default function measureAreaAndDistance(map){
     
     map.addLayer(vector)
 
-    // map.on('dblclick',function(){
-    //     console.log(map.getLayers())
-    //     map.removeLayer(vector)
-    //    // map.addLayer(vector)
-    // })
+   
     map.on('pointermove', pointerMoveHandler);
 
     map.getViewport().addEventListener('mouseout', function() {
@@ -215,7 +211,7 @@ export default function measureAreaAndDistance(map){
         });
     });
 
-    draw.on('drawend', function() {
+        draw.on('drawend', function() {
         measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
         measureTooltip.setOffset([0, -7]);
         // unset sketch
@@ -260,7 +256,7 @@ export default function measureAreaAndDistance(map){
             offset: [0, -15],
             positioning: 'bottom-center'
         });
-        map.addOverlay(measureTooltip);
+       map.addOverlay(measureTooltip);
     }
 
 
@@ -272,8 +268,14 @@ export default function measureAreaAndDistance(map){
         addInteraction();
     };
 
-    addInteraction();
+    addInteraction()
 
+    map.on('dblclick',function(){
+            map.removeInteraction(draw)
+            map.removeLayer(vector)
+            
+            var oArr = map.getOverlays()
+            oArr.clear()
+    })
 
-    
 }
