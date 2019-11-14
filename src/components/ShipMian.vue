@@ -3,7 +3,7 @@
         <el-container class="Main">
             <el-aside width='250px' style=" background-color:#F2F6FC;">
                 <h2>船舶管理系统</h2>
-                <div style="height:60px"> 
+                <div style="height:60px">
                     <el-row>
                         <el-col :span="2" style="margin-left:20px">
                             <el-avatar  icon="el-icon-user-solid" size='large'></el-avatar>
@@ -145,12 +145,12 @@
                      </el-tooltip>
                      <el-tooltip content="编组报警" placement="top">
                             <el-button  icon="el-icon-phone" circle></el-button>
-                     </el-tooltip> 
+                     </el-tooltip>
                     </div>
                     <el-button icon="el-icon-caret-left" size="mini" style="width:2px;height:40px;position: fixed;bottom: 2rem;right: 2rem;z-index: 9999;bottom:35rem" @click="table2 = true"></el-button>
                 </el-header>
                 <el-main style="width:169vh">
-                    <transition>                      
+                    <transition>
                             <router-view></router-view>
                     </transition>
                 </el-main>
@@ -270,7 +270,7 @@ export default {
           label: 'label'
         }
       };
-         
+
     },
     methods:{
             handleClose(done) {
@@ -298,7 +298,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消'
-          });          
+          });
         });
       }
     }
@@ -306,12 +306,12 @@ export default {
 </script>
 <style scoped>
 .Main{
-    width: 190vh;
-    height: 97vh;
+    width: 100vw;
+    height: 100vh;
 }
 h2{
     color: #909399;
-    
+
 
 }
 .el-aside{
