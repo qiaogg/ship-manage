@@ -7,6 +7,7 @@ import Point from 'ol/geom/Point'
 import {fromLonLat,transform} from 'ol/proj'
 import Overlay from 'ol/Overlay'
 import {toStringHDMS} from 'ol/coordinate'
+import addShipCluster from "./addShipCluster"
 
 
 export default function addShip(map){
@@ -64,12 +65,13 @@ export default function addShip(map){
         ship(3,2)
         i++
         map.addLayer(shipLayer)
-    },1000)
+        // var extent = [0,0,1200000,7000000]
+        // console.log(shipLayer.getSource().getFeaturesInExtent(extent))
+    },2000)
 
     function ship(shipId,offSize){
         if (i != 0){
-            var feature = shipLayer.getSource().getFeatureById(shipId)  
-            feature.getS      
+            var feature = shipLayer.getSource().getFeatureById(shipId)      
             shipLayer.getSource().removeFeature(feature)
         }
         var shipFeature= new Feature({
@@ -106,7 +108,23 @@ export default function addShip(map){
             }
         }
     }
-    map.on('click',showShipInfo)
+    map.on('click',showShipInfo) 
+
+    // map.on("moveend",function(){
+    //     var zoom = map.getView().getZoom()
+    //     var features
+    //     var flag = true
+    //     console.log(zoom)
+    //     if(zoom > 8 && flag){
+    //         features = addShipCluster(map)
+    //         flag = false
+    //     }
+    //     if(zoom < 8 && !flag){
+    //         map.removeLayer(features)
+    //         flag = true
+    //     }
+    // })
+  
 }
 
 

@@ -35,9 +35,9 @@
                             <el-menu-item index="/MapManage/olmap">显示地图</el-menu-item>
                             <el-menu-item @click="measureSea('line')">海图测距</el-menu-item>
                             <el-menu-item @click="measureSea('area')">海图测面</el-menu-item>
-                            <el-menu-item index="1-2">海图拍照</el-menu-item>
-                            <el-menu-item index="1-2">海图打印</el-menu-item>
-                            <el-menu-item index="1-2">海图定位</el-menu-item>
+                            <el-menu-item @click="mapScreen()">海图拍照</el-menu-item>
+                            <el-menu-item @click="mapPrint()">海图打印</el-menu-item>
+                            <el-menu-item @click="dialogFormVisible = true">海图定位</el-menu-item>
                         </el-menu-item-group>
                       </el-submenu>
                       <el-submenu index="3">
@@ -103,13 +103,13 @@
                 <el-header  style="width:169vh; margin-right:200px" class="icon">
                     <div style="margin-right:490px">
                      <el-tooltip content="圆形搜索" placement="top">
-                          <el-button  icon="el-icon-search" circle></el-button>
+                          <el-button @click="areaSearch('Circle')" icon="el-icon-search" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="距形搜索" placement="top">
-                          <el-button  icon="el-icon-zoom-in" circle></el-button>
+                          <el-button @click="areaSearch('Box')" icon="el-icon-zoom-in" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="任意搜索" placement="top">
-                          <el-button  icon="el-icon-aim" circle></el-button>
+                          <el-button @click="areaSearch('Polygon')" icon="el-icon-aim" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="船舶查询" placement="top">
                           <el-button  icon="el-icon-ship" circle></el-button>
@@ -136,10 +136,10 @@
                             <el-button  icon="el-icon-camera" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="测距" placement="top">
-                            <el-button  icon="el-icon-s-flag" circle></el-button>
+                            <el-button @click="measureSea('line')" icon="el-icon-s-flag" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="测面积" placement="top">
-                             <el-button  icon="el-icon-house" circle></el-button>
+                             <el-button @click="measureSea('area')" icon="el-icon-house" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="测方位角" placement="top">
                             <el-button  icon="el-icon-pie-chart" circle></el-button>
@@ -209,14 +209,32 @@
                  <el-tree :data="data4"  :props="defaultProps" @node-click="handleNodeClick" style="margin-top:20px"></el-tree>
              </el-col>
          </el-drawer>
+          <el-dialog title="坐标海图定位" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+              <el-form-item label="经度坐标" label-width="120px">
+                <el-input v-model="form.longitude" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="纬度坐标" label-width="120px">
+                <el-input v-model="form.latitude" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取 消</el-button>
+              <el-button type="primary" @click="dialogFormVisible=false;mapPosition()">确 定</el-button>
+            </div>
+          </el-dialog>
     </div>
 </template>
 <script>
 import measureAreaAndDistance from '../js/measureAreaAndDistance'
+import areaSearch from '../js/areaSearch'
+import addLocationImg from '../js/addLocationImg'
+import {transform} from 'ol/proj'
 export default {
     data(){
         return{
             map:null,
+            clusterSource:null,
              table: false,
              table2:false,
              dialog: false,
@@ -230,7 +248,9 @@ export default {
             delivery: false,
             type: [],
             resource: '',
-            desc: ''
+            desc: '',
+            longitude:'',
+            latitude:''
             },
             formLabelWidth: '80px',
              data4: [{
@@ -271,7 +291,8 @@ export default {
         defaultProps: {
           children: 'children',
           label: 'label'
-        }
+        },
+        dialogFormVisible: false
       };
          
     },
@@ -305,13 +326,26 @@ export default {
         });
       },
       getMapObject(val){
-          this.map = val
+        this.map = val.map;
+        this.clusterSource = val.clusterSource;
       },
       measureSea(measureType){
-          console.log(measureType)
-          measureAreaAndDistance(this.map,measureType)
-          //this.$emit('func')
-      }    
+         // console.log(this.map)
+        measureAreaAndDistance(this.map,measureType)
+      },
+      areaSearch(searchType){
+        var extent = areaSearch(this.map,searchType,this.clusterSource);      
+      },
+      mapPrint(){
+        window.print()
+      },
+      mapPosition(){
+        var center = transform([this.form.longitude,this.form.latitude],'EPSG:4326','EPSG:3857')
+        this.map.getView().setCenter(center)
+        this.map.getView().setZoom(7)
+        addLocationImg(this.map,this.form.longitude,this.form.latitude)
+        console.log(this.map.getLayers())
+      }
     }
 }
 </script>

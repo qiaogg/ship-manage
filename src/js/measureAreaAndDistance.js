@@ -50,7 +50,7 @@ export default function measureAreaAndDistance(map,measureType){
      * Overlay to show the help messages.
      * @type {Overlay}
      */
-    var helpTooltip;
+    var  helpTooltip;
 
 
     /**
@@ -116,7 +116,6 @@ export default function measureAreaAndDistance(map,measureType){
         helpTooltipElement.classList.add('hidden');
     });
 
-   // var typeSelect = document.getElementById('type');
 
     var draw; // global so we can remove it later
 
@@ -220,6 +219,11 @@ export default function measureAreaAndDistance(map,measureType){
         measureTooltipElement = null;
         createMeasureTooltip();
         unByKey(listener);
+
+        map.removeInteraction(draw)
+        map.removeLayer(vector)
+        var oArr = map.getOverlays()
+        oArr.clear()
         });
     }
 
@@ -235,7 +239,7 @@ export default function measureAreaAndDistance(map,measureType){
         helpTooltipElement.className = 'ol-tooltip hidden';
         helpTooltip = new Overlay({
             element: helpTooltipElement,
-            offset: [15, 0],
+            offset: [15, 15],
             positioning: 'center-left'
         });
         map.addOverlay(helpTooltip);
@@ -253,29 +257,11 @@ export default function measureAreaAndDistance(map,measureType){
         measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
         measureTooltip = new Overlay({
             element: measureTooltipElement,
-            offset: [0, -15],
+            offset: [0, -20],
             positioning: 'bottom-center'
         });
        map.addOverlay(measureTooltip);
     }
 
-
-    /**
-     * Let user change the geometry type.
-     */
-    // typeSelect.onchange = function() {
-    //     map.removeInteraction(draw);
-    //     addInteraction();
-    // };
-
     addInteraction()
-
-    map.on('dblclick',function(){
-            map.removeInteraction(draw)
-            map.removeLayer(vector)
-            
-            var oArr = map.getOverlays()
-            oArr.clear()
-    })
-
 }

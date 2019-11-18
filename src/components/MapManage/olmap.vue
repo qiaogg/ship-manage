@@ -1,6 +1,10 @@
 <template> 
  <div > 
-  <div id="allmap" ref="allmap"></div> 
+  <div id="allmap" ref="allmap"></div>
+  <form>
+      <label>cluster distance</label>
+      <input id="distance" type="range" min="0" max="200" step="1" value="0"/>
+    </form> 
   <!-- 船信息显示 start-->
   <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -19,21 +23,25 @@ import XYZ from "ol/source/XYZ"
 import {transform} from 'ol/proj'
 import {toLonLat} from 'ol/proj'
 import addShip from "../../js/addShipLayer"
-import measureAreaAndDistance from "../../js/measureAreaAndDistance"
 import showShipTrace from '../../js/showShipTrace'
+import addShipCluster from "../../js/addShipCluster"
+
 
 export default { 
  name: 'App',
  data(){
      return{
-         map: null,
-        ship: null,
+         val:{
+            map: null,
+            clusterSource:null
+         },
+        ship: null,  
      }
  },
  methods:{ 
   drawMap(){ 
-        var _this = this;
-        _this.map = new Map({
+        var _this = this;    
+        _this.val.map = new Map({
           target:"allmap",
           layers:[
               new Tile({
@@ -50,11 +58,11 @@ export default {
           view: new View({
              // projection: "EPSG:4326",
               center:transform([117,30],'EPSG:4326','EPSG:3857'),
-              zoom:6
+              zoom:4,
+              maxZoom:19,
+              minZoom:0
           })
       })
-      _this.$emit('getMap',_this.map)
-      
     },
     //鼠标经纬度
     mouseSite(){
@@ -62,14 +70,22 @@ export default {
       _this.map.on('pointermove',function(){
           console.log(transform(_this.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
       })
+    },
+    moveToPoint(){
+      var view = this.map.getView()
+      view.setCenter(transform([114,30.67],'EPSG:4326','EPSG:3857'))
+      this.map.render()
     }
 },
     mounted(){ 
         this.drawMap();
         // this.mouseSite();
-        addShip(this.map);
-        //measureAreaAndDistance(this.map);
-        showShipTrace(this.map);
+        addShip(this.val.map);
+        showShipTrace(this.val.map);
+        //this.moveToPoint();      
+        this.val.clusterSource = addShipCluster(this.val.map); 
+       //this.val.clusterSource = null   
+        this.$emit('getMap',this.val)
       } 
  } 
 </script> 
