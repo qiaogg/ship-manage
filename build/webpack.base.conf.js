@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+// var webpack=require("webpack")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -16,9 +17,9 @@ module.exports = {
     app: './src/main.js'
   },
   externals: {
-    "BMap": "BMap" 
- 
-  }, 
+    "BMap": "BMap"
+
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -88,4 +89,12 @@ module.exports = {
     child_process: 'empty'
   },
   devServer: { disableHostCheck: true, },
+
+  // plugins: [
+  //   new webpack.optimize.CommonsChunkPlugin('common.js'),
+  //   new webpack.ProvidePlugin({
+  //     jQuery: "jquery",
+  //     $: "jquery"
+  //   })
+  // ]
 }

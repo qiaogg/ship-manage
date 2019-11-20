@@ -6,6 +6,9 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
+
+// import $ from 'jquery'
+
 //import VueAxios from 'vue-axios'
 //引入echarts
 import echarts from 'echarts'
@@ -16,7 +19,7 @@ Vue.use(base);
 
 
 Vue.use(ElementUI)
-Vue.prototype.$echarts = echarts 
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.prototype.$axios= axios
 /* eslint-disable no-new */
@@ -26,16 +29,16 @@ new Vue({
    return {
     info:null
    // userName:'CTBTforV'
-   } 
+   }
   },
   router,
   components: { App },
   template: '<App/>',
 
- 
+
 })
 /**
  * qQ0CsBemyq1DlGgtJRKK6WVUwQTmnei5,4,1016
- * 
- * 
+ *
+ *
  */

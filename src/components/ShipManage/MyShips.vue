@@ -6,11 +6,13 @@
     </div>
     <br>
     <el-card style="margin-top:50px">
-      <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
-        <el-table-column  prop="index" label="序号" width="100"></el-table-column>
-        <el-table-column  prop="id" label="产品ID"  ></el-table-column>
+      <el-table ref="multipleTable" :data="handleList.slice((currentPage-1)*pageSize,currentPage*pageSize)" tooltip-effect="dark" style="width: 100%">
+        <el-table-column  type="index" label="序号" width="100"></el-table-column>
         <el-table-column  prop="name" label="船名"  ></el-table-column>
-        <el-table-column  prop="number" label="卡号"></el-table-column>
+        <el-table-column  prop="id" label="船舶id"  ></el-table-column>
+        <el-table-column  prop="productId" label="产品ID"  ></el-table-column>
+        <el-table-column  prop="equipmentid" label="设备ID"></el-table-column>
+        <el-table-column  prop="mmsi" label="mmsi"></el-table-column>
       </el-table>
       <div style="margin-top:20px">
           <el-pagination
@@ -27,9 +29,10 @@
   </div>
 </template>
 <script>
+    import TheLogin from "../views/TheLogin";
+
     export default {
-        data()
-        {
+        data() {
             return {
                 handleList: [],
                 // 当前页
@@ -42,11 +45,49 @@
             // 每页多少条
             handleSizeChange(val) {
                 this.pageSize = val;
+                this.currentPage = 1;
             },
             // 当前页
             handleCurrentChange(val) {
                 this.currentPage = val;
             }
+        },
+        mounted() {
+            this.userEncryptId=localStorage.getItem("userEncryptId");
+            console.log(this.userEncryptId);
+            let xmls = '<?xml version="1.0" encoding="utf-8"?> \
+                    <soap:Envelope \
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"\
+                    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"\
+                    xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
+                    soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
+                    <soap:Body>\
+                    <UserWebServiceService:getShipsByUserId><arg0>{"userId":"'+this.userEncryptId+'"}</arg0></UserWebServiceService:getShipsByUserId>\
+                    </soap:Body>\
+                    </soap:Envelope>'
+            this.$axios.post('/api/CTBT/services/Ships', xmls, {headers: {'Content-type': 'application/json;charset=UTF-8'}})
+                .then((response) => {
+                    this.reslut = this.xmlToJson(response.data);
+                    var temp = this.reslut[0].textContent.split(",");
+
+                    if (temp[0] == "no_record") {
+                        this.$alert('暂无数据!');
+                    }
+                    else {
+                        let jsonStr=temp.join(",");
+                        // console.log(jsonStr);
+                        var jsonObj =  JSON.parse(jsonStr);
+                        let arr=[];
+                        for(let i in jsonObj){
+                            arr.push(jsonObj[i]);
+                        }
+                        this.handleList=arr;
+                    }
+                })
+                .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
         }
     }
 </script>

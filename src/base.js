@@ -1,3 +1,5 @@
+
+
 export default {
   install (Vue, options) {
     Vue.prototype.xmlToJson = function (xmlData){
