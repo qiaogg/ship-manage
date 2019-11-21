@@ -84,6 +84,10 @@ export default {
                       }else{
                           //密文id
                           localStorage.setItem("userEncryptId", temp[0]);
+                          //用户类型
+                          localStorage.setItem("userType", temp[1]);
+                          //明文id
+                          localStorage.setItem("userId", temp[2]);
                         //  this.logining = false;
                           sessionStorage.setItem('user', this.ruleForm2.username);
                           this.$router.push({path: '/ShipMian'});

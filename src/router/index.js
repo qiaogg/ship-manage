@@ -20,6 +20,7 @@ import Searchdata from '@/components/Searchcount/Searchdata'
 import Sailcount from '@/components/Searchcount/Sailcount'
 import olmap from '@/components/MapManage/olmap'
 import TheLogin from '@/components/views/TheLogin'
+import AlarmShips from "../components/Alarm/AlarmShips";
 
 
 Vue.use(Router)
@@ -80,6 +81,11 @@ export default new Router({
           path: '/ShipManage/GroupManage',
           name: 'GroupManage',
           component: GroupManage,
+        },
+        {
+          path: '/Alarm/AlarmShips',
+          name: 'AlarmShips',
+          component: AlarmShips,
         },
         {
           path: '/Alarm/AlarmSearch',

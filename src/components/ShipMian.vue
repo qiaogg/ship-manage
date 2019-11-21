@@ -59,6 +59,7 @@
                             <span>报警救援</span>
                          </template>
                         <el-menu-item-group>
+                            <el-menu-item index="/Alarm/AlarmShips">报警船舶</el-menu-item>
                             <el-menu-item index="/Alarm/AlarmSearch">报警查询</el-menu-item>
                             <el-menu-item index="1-2">视屏通话</el-menu-item>
                             <el-menu-item index="/Alarm/PortSearch">港口查询</el-menu-item>
