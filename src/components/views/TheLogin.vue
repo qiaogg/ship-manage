@@ -23,7 +23,6 @@
                 </el-form-item>
             <el-checkbox
                 v-model="checked"
-                class="rememberme"
             >记住密码</el-checkbox>
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
@@ -40,14 +39,14 @@ export default {
         return {
             logining: false,
             ruleForm2: {
-                username: '',
-                password: '',
+                username:localStorage.getItem("userName"),
+                password:localStorage.getItem("passWord"),
             },
             rules2: {
                 username: [{required: true, message: 'please enter your account', trigger: 'blur'}],
                 password: [{required: true, message: 'enter your password', trigger: 'blur'}]
             },
-            checked: false
+            checked: true
         }
     },
     methods: {
@@ -89,8 +88,14 @@ export default {
                           //明文id
                           localStorage.setItem("userId", temp[2]);
                         //  this.logining = false;
-                          sessionStorage.setItem('user', this.ruleForm2.username);
-                          this.$router.push({path: '/ShipMian'});
+                          if(this.checked==true) {
+                              localStorage.setItem("userName", this.ruleForm2.username);
+                              localStorage.setItem("passWord", this.ruleForm2.password);
+                          }else {
+                              localStorage.setItem("userName", '');
+                              localStorage.setItem("passWord", '');
+                          }
+                          this.$router.push({path: '/MapManage/olmap'});
                       }
                     })
                     .catch(function (error) { // 请求失败处理

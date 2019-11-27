@@ -9,10 +9,10 @@
       <el-table ref="multipleTable" :data="handleList.slice((currentPage-1)*pageSize,currentPage*pageSize)" tooltip-effect="dark" style="width: 100%">
         <el-table-column  type="index" label="序号" width="100"></el-table-column>
         <el-table-column  prop="name" label="船名"  ></el-table-column>
-        <el-table-column  prop="id" label="船舶id"  ></el-table-column>
+        <el-table-column  prop="id" label="船舶ID"  ></el-table-column>
         <el-table-column  prop="productId" label="产品ID"  ></el-table-column>
-        <el-table-column  prop="equipmentid" label="设备ID"></el-table-column>
-        <el-table-column  prop="mmsi" label="mmsi"></el-table-column>
+        <el-table-column  prop="equipmentid" label="卡号"></el-table-column>
+        <el-table-column  prop="mmsi" label="MMSI"></el-table-column>
       </el-table>
       <div style="margin-top:20px">
           <el-pagination

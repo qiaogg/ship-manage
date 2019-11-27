@@ -8,8 +8,8 @@
                         <el-col :span="2" style="margin-left:20px">
                             <el-avatar  icon="el-icon-user-solid" size='large'></el-avatar>
                         </el-col>
-                        <el-col :span="6" style="margin-left:20px;margin-top:10px">
-                           账号:<div id=""></div>
+                        <el-col :span="6" style="margin-left:30px;margin-top:10px">
+                           <div>ID:{{userName}}</div>
                         </el-col>
                     </el-row>
                 </div>
@@ -213,9 +213,11 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     data(){
         return{
+            userName:localStorage.getItem("userName"),
              table: false,
              table2:false,
              dialog: false,
@@ -292,6 +294,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          this.$router.push({path: '/'});
           this.$message({
             type: 'success',
             message: '成功退出!'
