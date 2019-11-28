@@ -14,9 +14,9 @@ export default function addShipCluster(map){
 
     var count = 3000;
     var features = new Array(count)
-    var e = 19500000
+    var e = 450000
     for (var i = 0; i < count; ++i) {
-      var coordinates = [2 * e * Math.random() - e,  2 * e * Math.random() - e]
+      var coordinates = [2 * e * Math.random() - e+15000000,  2 * e * Math.random() - e + 100000]
     //  console.log(transform(coordinates,"EPSG:3857","EPSG:4326"))
    // console.log(coordinates)
       features[i] = new Feature(new Point(coordinates))
@@ -47,12 +47,12 @@ export default function addShipCluster(map){
             //     color: '#3399CC'
             //   })
             // }),
-            text: new Text({
-              text: size.toString(),
-              fill: new Fill({
-                color: '#000'
-              })
-            })
+            // text: new Text({
+            //   text: size.toString(),
+            //   fill: new Fill({
+            //     color: '#000'
+            //   })
+            // })
           });
           styleCache[size] = style;
         }
@@ -64,7 +64,7 @@ export default function addShipCluster(map){
 
     map.on('moveend',function(){
         var zoom = map.getView().getZoom()
-        if (zoom > 5 && zoom < 11){
+        if (zoom > 8 && zoom < 19){
             clusters.setVisible(true)
         }else{
             clusters.setVisible(false)

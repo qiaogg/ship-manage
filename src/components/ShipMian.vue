@@ -130,7 +130,7 @@
                             <el-button  icon="el-icon-full-screen" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="清除所有轨迹" placement="top">
-                            <el-button  icon="el-icon-error" circle></el-button>
+                            <el-button  @click="removeAllTrace()" icon="el-icon-error" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="快照" placement="top">
                             <el-button  icon="el-icon-camera" circle></el-button>
@@ -142,11 +142,12 @@
                              <el-button @click="measureSea('area')" icon="el-icon-house" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="测方位角" placement="top">
-                            <el-button  icon="el-icon-pie-chart" circle></el-button>
+                            <el-button @click="measureAngler" icon="el-icon-pie-chart" circle></el-button>
                      </el-tooltip>
                      <el-tooltip content="编组报警" placement="top">
                             <el-button  icon="el-icon-phone" circle></el-button>
                      </el-tooltip> 
+                     <a id="image-download" download="map.png"></a>
                     </div>
                     <el-button icon="el-icon-caret-left" size="mini" style="width:2px;height:40px;position: fixed;bottom: 2rem;right: 2rem;z-index: 9999;bottom:35rem" @click="table2 = true"></el-button>
                 </el-header>
@@ -155,7 +156,7 @@
                             <router-view v-on:getMap="getMapObject"></router-view>
                     </transition>
                 </el-main>
-            </el-container>
+            </el-container> 
         </el-container>
          <el-button icon="el-icon-caret-top" size="mini" style="position: fixed;bottom: 2rem;right: 5rem;z-index: 9999;" @click="table = true"></el-button>
          <el-drawer
@@ -209,18 +210,18 @@
                  <el-tree :data="data4"  :props="defaultProps" @node-click="handleNodeClick" style="margin-top:20px"></el-tree>
              </el-col>
          </el-drawer>
-          <el-dialog title="坐标海图定位" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-              <el-form-item label="经度坐标" label-width="120px">
+          <el-dialog title="坐标海图定位" :visible.sync="dialogFormVisible" width="400px">
+            <el-form :model="form" label-width="120px">
+              <el-form-item  label="经度坐标" label-width="80px">
                 <el-input v-model="form.longitude" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="纬度坐标" label-width="120px">
-                <el-input v-model="form.latitude" autocomplete="off"></el-input>
+              <el-form-item label="纬度坐标" label-width="80px">
+                 <el-input v-model="form.latitude" autocomplete="off"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible=false;mapPosition()">确 定</el-button>
+               <el-button @click="dialogFormVisible = false">取 消</el-button>
+               <el-button type="primary" @click="dialogFormVisible=false;mapPosition()">确 定</el-button>
             </div>
           </el-dialog>
     </div>
@@ -230,10 +231,14 @@ import measureAreaAndDistance from '../js/measureAreaAndDistance'
 import areaSearch from '../js/areaSearch'
 import addLocationImg from '../js/addLocationImg'
 import {transform} from 'ol/proj'
+import VectorSource from 'ol/source/Vector'
+import kscreenshot from 'kscreenshot'
+import measureAngle from '../js/measureAngle'
 export default {
     data(){
         return{
             map:null,
+            tempVectorLayer:[],
             clusterSource:null,
              table: false,
              table2:false,
@@ -331,20 +336,46 @@ export default {
       },
       measureSea(measureType){
          // console.log(this.map)
+
+         console.log(this.map.getInteractions().getLength())
+         var len = this.map.getInteractions().getLength()
+         if (len > 9) {
+           for (let index = 9; index < len; index++) {
+             this.map.getInteractions().removeAt(index)           
+           }   
+         }
         measureAreaAndDistance(this.map,measureType)
-      },
+      },   
       areaSearch(searchType){
         var extent = areaSearch(this.map,searchType,this.clusterSource);      
       },
-      mapPrint(){
-        window.print()
+      mapScreen(){
+        var kst = new kscreenshot({
+         // key:65,
+          needDownload:false,
+        })
+        kst.startScreenShot()
+      },
+      mapPrint(){       
+          window.print()
       },
       mapPosition(){
         var center = transform([this.form.longitude,this.form.latitude],'EPSG:4326','EPSG:3857')
         this.map.getView().setCenter(center)
         this.map.getView().setZoom(7)
-        addLocationImg(this.map,this.form.longitude,this.form.latitude)
-        console.log(this.map.getLayers())
+        var tempLayer = addLocationImg(this.map,this.form.longitude,this.form.latitude)
+        this.tempVectorLayer.push(tempLayer)
+      },
+      removeAllTrace(){
+        //console.log(this.tempVectorLayer)
+        this.tempVectorLayer.forEach(element => {
+            this.map.removeLayer(element)
+        }); 
+        this.tempVectorLayer = []
+      },
+      measureAngler(){
+        var lineLayer = measureAngle(this.map)
+        this.tempVectorLayer.push(lineLayer)
       }
     }
 }

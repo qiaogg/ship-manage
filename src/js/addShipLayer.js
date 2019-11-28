@@ -7,7 +7,7 @@ import Point from 'ol/geom/Point'
 import {fromLonLat,transform} from 'ol/proj'
 import Overlay from 'ol/Overlay'
 import {toStringHDMS} from 'ol/coordinate'
-import addShipCluster from "./addShipCluster"
+
 
 
 export default function addShip(map){
@@ -63,11 +63,12 @@ export default function addShip(map){
         ship(1,0)
         ship(2,1)
         ship(3,2)
+        // addShip()
         i++
         map.addLayer(shipLayer)
         // var extent = [0,0,1200000,7000000]
         // console.log(shipLayer.getSource().getFeaturesInExtent(extent))
-    },2000)
+    },6000)
 
     function ship(shipId,offSize){
         if (i != 0){
@@ -83,6 +84,29 @@ export default function addShip(map){
         shipLayer.getSource().addFeature(shipFeature)
     }
 
+    // function ship(shipId,shipSite){
+    //     if (i != 0){
+    //         var feature = shipLayer.getSource().getFeatureById(shipId)      
+    //         shipLayer.getSource().removeFeature(feature)
+    //     }
+    //     var shipFeature= new Feature({
+	// 		geometry: new Point(fromLonLat(shipSite))
+    //     })
+    //     shipFeature.setProperties(shipInfo)  
+    //     shipFeature.setId(shipId)    
+	// 	shipFeature.setStyle(style);
+    //     shipLayer.getSource().addFeature(shipFeature)
+    // }
+
+    function addShip(){
+        var count = 10000;
+        var e = 4500000
+        for (var i = 0; i < count; ++i) {
+            var shipSite = [2 * e * Math.random() - e+1000000,  2 * e * Math.random() - e]
+            var s = transform(shipSite,'EPSG:3857','EPSG:4326')
+            ship(i+1,s)
+        }
+    }
 
     function showShipInfo(event){
         var hdms = toStringHDMS(transform(coordinate, 'EPSG:3857', 'EPSG:4326'))
@@ -110,20 +134,6 @@ export default function addShip(map){
     }
     map.on('click',showShipInfo) 
 
-    // map.on("moveend",function(){
-    //     var zoom = map.getView().getZoom()
-    //     var features
-    //     var flag = true
-    //     console.log(zoom)
-    //     if(zoom > 8 && flag){
-    //         features = addShipCluster(map)
-    //         flag = false
-    //     }
-    //     if(zoom < 8 && !flag){
-    //         map.removeLayer(features)
-    //         flag = true
-    //     }
-    // })
   
 }
 

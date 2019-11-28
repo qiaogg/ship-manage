@@ -1,9 +1,12 @@
 <template> 
+
  <div > 
+   <!--startprint-->
   <div id="allmap" ref="allmap"></div>
+   <!--endprint-->
   <form>
       <label>cluster distance</label>
-      <input id="distance" type="range" min="0" max="200" step="1" value="0"/>
+      <input id="distance" type="range" min="0" max="200" step="1" value="50"/>
     </form> 
   <!-- 船信息显示 start-->
   <div id="popup" class="ol-popup">
@@ -13,6 +16,7 @@
  <!-- 船信息显示 end-->
   <router-view></router-view> 
  </div> 
+
 </template> 
 <script> 
 import "ol/ol.css"
@@ -25,6 +29,7 @@ import {toLonLat} from 'ol/proj'
 import addShip from "../../js/addShipLayer"
 import showShipTrace from '../../js/showShipTrace'
 import addShipCluster from "../../js/addShipCluster"
+import addFishingZone from "../../js/addFishingZone"
 
 
 export default { 
@@ -35,7 +40,6 @@ export default {
             map: null,
             clusterSource:null
          },
-        ship: null,  
      }
  },
  methods:{ 
@@ -46,13 +50,15 @@ export default {
           layers:[
               new Tile({
                   source: new XYZ({
-                      url:'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'
+                      crossOrigin:'anonymous',
+                      url:'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'                     
                   })
               }),
                new Tile({
                   source: new XYZ({
-                      url:'http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}'
-                  })
+                      crossOrigin:'anonymous',
+                      url:'http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}'       
+                  }),
               })
           ],
           view: new View({
@@ -71,21 +77,20 @@ export default {
           console.log(transform(_this.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
       })
     },
-    moveToPoint(){
-      var view = this.map.getView()
-      view.setCenter(transform([114,30.67],'EPSG:4326','EPSG:3857'))
-      this.map.render()
+    //添加大鱼区
+    addFishingZone(){
+
     }
 },
     mounted(){ 
         this.drawMap();
         // this.mouseSite();
         addShip(this.val.map);
-        showShipTrace(this.val.map);
-        //this.moveToPoint();      
+        showShipTrace(this.val.map);       
         this.val.clusterSource = addShipCluster(this.val.map); 
        //this.val.clusterSource = null   
-        this.$emit('getMap',this.val)
+       this.$emit('getMap',this.val);
+       addFishingZone(this.val.map);
       } 
  } 
 </script> 

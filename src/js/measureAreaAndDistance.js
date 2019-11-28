@@ -102,7 +102,7 @@ export default function measureAreaAndDistance(map,measureType){
         }
 
         helpTooltipElement.innerHTML = helpMsg;
-        helpTooltip.setPosition(evt.coordinate);
+       // helpTooltip.setPosition(evt.coordinate);
 
         helpTooltipElement.classList.remove('hidden');
     };
@@ -211,19 +211,19 @@ export default function measureAreaAndDistance(map,measureType){
     });
 
         draw.on('drawend', function() {
-        measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
-        measureTooltip.setOffset([0, -7]);
-        // unset sketch
-        sketch = null;
-        // unset tooltip so that a new one can be created
-        measureTooltipElement = null;
-        createMeasureTooltip();
-        unByKey(listener);
+            measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
+            measureTooltip.setOffset([0, -7]);
+            // unset sketch
+            sketch = null;
+            // unset tooltip so that a new one can be created
+            measureTooltipElement = null;
+            createMeasureTooltip();
+            unByKey(listener);
 
-        map.removeInteraction(draw)
-        map.removeLayer(vector)
-        var oArr = map.getOverlays()
-        oArr.clear()
+            map.removeInteraction(draw)
+            map.removeLayer(vector)
+            var oArr = map.getOverlays()
+            oArr.clear()
         });
     }
 
