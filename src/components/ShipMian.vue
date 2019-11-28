@@ -8,8 +8,8 @@
                         <el-col :span="2" style="margin-left:20px">
                             <el-avatar  icon="el-icon-user-solid" size='large'></el-avatar>
                         </el-col>
-                        <el-col :span="6" style="margin-left:20px;margin-top:10px">
-                           账号:<div id=""></div>
+                         <el-col :span="6" style="margin-left:30px;margin-top:10px">
+                           <div>ID:{{userName}}</div>
                         </el-col>
                     </el-row>
                 </div>
@@ -46,6 +46,7 @@
                             <span>船舶管理</span>
                          </template>
                         <el-menu-item-group>
+                            <el-menu-item index="/ShipManage/MyShips">我的船舶</el-menu-item>
                             <el-menu-item index="/ShipManage/Search">船舶查询</el-menu-item>
                             <el-menu-item index="/ShipManage/NoPowerSearch">无动力船舶</el-menu-item>
                             <el-menu-item index="/ShipManage/ShipTrace">区域回放</el-menu-item>
@@ -59,6 +60,7 @@
                             <span>报警救援</span>
                          </template>
                         <el-menu-item-group>
+                            <el-menu-item index="/Alarm/AlarmShips">报警船舶</el-menu-item>
                             <el-menu-item index="/Alarm/AlarmSearch">报警查询</el-menu-item>
                             <el-menu-item index="1-2">视屏通话</el-menu-item>
                             <el-menu-item index="/Alarm/PortSearch">港口查询</el-menu-item>
@@ -147,7 +149,6 @@
                      <el-tooltip content="编组报警" placement="top">
                             <el-button  icon="el-icon-phone" circle></el-button>
                      </el-tooltip> 
-                     <a id="image-download" download="map.png"></a>
                     </div>
                     <el-button icon="el-icon-caret-left" size="mini" style="width:2px;height:40px;position: fixed;bottom: 2rem;right: 2rem;z-index: 9999;bottom:35rem" @click="table2 = true"></el-button>
                 </el-header>
@@ -227,6 +228,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 import measureAreaAndDistance from '../js/measureAreaAndDistance'
 import areaSearch from '../js/areaSearch'
 import addLocationImg from '../js/addLocationImg'
@@ -237,6 +239,7 @@ import measureAngle from '../js/measureAngle'
 export default {
     data(){
         return{
+            userName:localStorage.getItem("userName"),
             map:null,
             tempVectorLayer:[],
             clusterSource:null,
@@ -319,6 +322,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          this.$router.push({path: '/'});
           this.$message({
             type: 'success',
             message: '成功退出!'
@@ -382,8 +386,8 @@ export default {
 </script>
 <style scoped>
 .Main{
-    width: 190vh;
-    height: 97vh;
+    width: 100vw;
+    height: 100vh;
 }
 h2{
     color: #909399;

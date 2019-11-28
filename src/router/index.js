@@ -6,6 +6,7 @@ import system from '@/components/System/system'
 import Password from '@/components/System/Password'
 import Sound from '@/components/System/Sound'
 //import Test_distance from '@/components/Manage/Test_distance'
+import MyShips from '@/components/ShipManage/MyShips'
 import Search from '@/components/ShipManage/Search'
 import NoPowerSearch from '@/components/ShipManage/NoPowerSearch'
 import ShipTrace from '@/components/ShipManage/ShipTrace'
@@ -19,6 +20,7 @@ import Searchdata from '@/components/Searchcount/Searchdata'
 import Sailcount from '@/components/Searchcount/Sailcount'
 import olmap from '@/components/MapManage/olmap'
 import TheLogin from '@/components/views/TheLogin'
+import AlarmShips from "../components/Alarm/AlarmShips";
 
 
 Vue.use(Router)
@@ -55,10 +57,16 @@ export default new Router({
           component: olmap,
         },
         {
+          path: '/ShipManage/MyShips',
+          name: 'MyShips',
+          component: MyShips,
+        },
+        {
           path: '/ShipManage/Search',
           name: 'Search',
           component: Search,
         },
+
         {
           path: '/ShipManage/NoPowerSearch',
           name: 'NoPowerSearch',
@@ -73,6 +81,11 @@ export default new Router({
           path: '/ShipManage/GroupManage',
           name: 'GroupManage',
           component: GroupManage,
+        },
+        {
+          path: '/Alarm/AlarmShips',
+          name: 'AlarmShips',
+          component: AlarmShips,
         },
         {
           path: '/Alarm/AlarmSearch',

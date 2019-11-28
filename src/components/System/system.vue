@@ -7,9 +7,9 @@
         <br>
         <div class="System1">
             <el-card>
-                <el-form ref="form" :model="form" label-width="140px">
+                <el-form ref="form" :model="form" label-width="300px">
                      <el-form-item label="轨迹数据源:">
-                        <el-select v-model="system.data" placeholder="请选择" style="margin-right:850px">
+                        <el-select v-model="system.data" placeholder="请选择">
                              <el-option
                                v-for="item in times"
                                :key="item.value"
@@ -19,7 +19,7 @@
                         </el-select>
                      </el-form-item>
                      <el-form-item label="显示真实船只比例:">
-                        <el-select v-model="system.scale" placeholder="请选择" style="margin-right:850px">
+                        <el-select v-model="system.scale" placeholder="请选择">
                              <el-option
                                v-for="item in scales"
                                :key="item.value"
@@ -29,40 +29,40 @@
                         </el-select>
                      </el-form-item>
                      <el-form-item label="经纬度样式:">
-                           <el-select v-model="form.type" placeholder="请选择经纬度样式" style="margin-right:850px">
+                           <el-select v-model="form.type" placeholder="请选择经纬度样式">
                                  <el-option label="小数形式" value="0"></el-option>
                                  <el-option label="度分秒形式" value="1"></el-option>
                            </el-select>
                      </el-form-item>
                      <el-form-item label="默认回放轨迹时间:">
-                         <el-col :span="3" style="margin-left:3px">
-                             <el-input v-model="system.back_time" >
+<!--                         <el-col :span="3" style="align-content: center">-->
+                             <el-input v-model="system.back_time" style="width: fit-content">
                                    <template slot="append">h</template>
                              </el-input>
-                         </el-col>
+<!--                         </el-col>-->
                      </el-form-item>
                      <el-form-item label="船只显示时间:">
-                         <el-col :span="3" style="margin-left:3px">
-                             <el-input v-model="system.show_time" >
+<!--                         <el-col :span="3" style="margin-left:3px">-->
+                             <el-input v-model="system.show_time" style="width: fit-content">
                                    <template slot="append">h</template>
                              </el-input>
-                         </el-col>
+<!--                         </el-col>-->
                      </el-form-item>
                      <el-form-item label="地图刷新时间:">
-                         <el-col :span="3" style="margin-left:3px">
-                             <el-input v-model="system.fresh_time" >
+<!--                         <el-col :span="3" style="margin-left:3px">-->
+                             <el-input v-model="system.fresh_time" style="width: fit-content">
                                    <template slot="append">s</template>
                              </el-input>
-                         </el-col>
+<!--                         </el-col>-->
+                     </el-form-item>
+                     <el-form-item>
+                       <el-button type="primary" @click="onSubmit">保存</el-button>
+                       <router-link to="/MapManage/olmap">
+                         <el-button style="margin-left:20px">退出</el-button>
+                       </router-link>
                      </el-form-item>
                 </el-form>
             </el-card>
-                <div style="margin-top:30px;margin-right:800px">
-                     <el-button type="primary" @click="onSubmit">保存</el-button>
-                     <router-link to="/">
-                         <el-button style="margin-left:20px">退出</el-button>
-                     </router-link>
-                </div>
         </div>
     </div>
 </template>
@@ -79,7 +79,7 @@ export default {
                 show_time:'2',
                 fresh_time:'200'
 
-            },   
+            },
           times:[
               {
                  value: '0',
