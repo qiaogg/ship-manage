@@ -8,7 +8,7 @@ import VectorLayer from 'ol/layer/Vector'
 import {Vector as VectorSource} from 'ol/source';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 
-export default function measureAreaAndDistance(map){
+export default function measureAreaAndDistance(map,measureType){
 
     var source = new VectorSource();
 
@@ -50,7 +50,7 @@ export default function measureAreaAndDistance(map){
      * Overlay to show the help messages.
      * @type {Overlay}
      */
-    var helpTooltip;
+    var  helpTooltip;
 
 
     /**
@@ -102,25 +102,20 @@ export default function measureAreaAndDistance(map){
         }
 
         helpTooltipElement.innerHTML = helpMsg;
-        helpTooltip.setPosition(evt.coordinate);
+       // helpTooltip.setPosition(evt.coordinate);
 
         helpTooltipElement.classList.remove('hidden');
     };
     
     map.addLayer(vector)
 
-    // map.on('dblclick',function(){
-    //     console.log(map.getLayers())
-    //     map.removeLayer(vector)
-    //    // map.addLayer(vector)
-    // })
+   
     map.on('pointermove', pointerMoveHandler);
 
     map.getViewport().addEventListener('mouseout', function() {
         helpTooltipElement.classList.add('hidden');
     });
 
-    var typeSelect = document.getElementById('type');
 
     var draw; // global so we can remove it later
 
@@ -163,7 +158,7 @@ export default function measureAreaAndDistance(map){
     };
 
     function addInteraction() {
-        var type = (typeSelect.value == 'area' ? 'Polygon' : 'LineString');
+        var type = (measureType == 'area' ? 'Polygon' : 'LineString');
         draw = new Draw({
             source: source,
             type: type,
@@ -215,15 +210,20 @@ export default function measureAreaAndDistance(map){
         });
     });
 
-    draw.on('drawend', function() {
-        measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
-        measureTooltip.setOffset([0, -7]);
-        // unset sketch
-        sketch = null;
-        // unset tooltip so that a new one can be created
-        measureTooltipElement = null;
-        createMeasureTooltip();
-        unByKey(listener);
+        draw.on('drawend', function() {
+            measureTooltipElement.className = 'ol-tooltip ol-tooltip-static';
+            measureTooltip.setOffset([0, -7]);
+            // unset sketch
+            sketch = null;
+            // unset tooltip so that a new one can be created
+            measureTooltipElement = null;
+            createMeasureTooltip();
+            unByKey(listener);
+
+            map.removeInteraction(draw)
+            map.removeLayer(vector)
+            var oArr = map.getOverlays()
+            oArr.clear()
         });
     }
 
@@ -239,7 +239,7 @@ export default function measureAreaAndDistance(map){
         helpTooltipElement.className = 'ol-tooltip hidden';
         helpTooltip = new Overlay({
             element: helpTooltipElement,
-            offset: [15, 0],
+            offset: [15, 15],
             positioning: 'center-left'
         });
         map.addOverlay(helpTooltip);
@@ -257,23 +257,11 @@ export default function measureAreaAndDistance(map){
         measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
         measureTooltip = new Overlay({
             element: measureTooltipElement,
-            offset: [0, -15],
+            offset: [0, -20],
             positioning: 'bottom-center'
         });
-        map.addOverlay(measureTooltip);
+       map.addOverlay(measureTooltip);
     }
 
-
-    /**
-     * Let user change the geometry type.
-     */
-    typeSelect.onchange = function() {
-        map.removeInteraction(draw);
-        addInteraction();
-    };
-
-    addInteraction();
-
-
-    
+    addInteraction()
 }

@@ -9,14 +9,15 @@ import Overlay from 'ol/Overlay'
 import {toStringHDMS} from 'ol/coordinate'
 
 
+
 export default function addShip(map){
     var coordinate = null
     var shipLayer = new VectorLayer({
         source: new Vector()
     })
 
-    var shipX = [116.3,123.11,123.9,124]
-    var shipY = [39.9,30,31,31.5]
+    var shipX = [123.1,123.2,123.3,123.4]
+    var shipY = [30,30,30,30]
     var data_value = 'JSXX 085 365787 2019-09-26|02:19:37 2 0124-07-23-09 0030-37-50-04 019 118 025 1 N51'
    // var data_key = 'JSXX 船长 终端卡号 报警时间 报警类型 经度 纬度 速度 方向 温度 电池状态 未知'
     var values = data_value.split(' ')
@@ -28,7 +29,8 @@ export default function addShip(map){
 
     var style = new Style({
         image: new Icon({
-           src:'../../static/images/ship.png'
+           src:'../../static/images/ship_normal.png',
+           rotation: 1
         })
     })
     //为map添加点击事件获取点击处的坐标
@@ -52,19 +54,59 @@ export default function addShip(map){
         overlay.setPosition(undefined)
         closer.blur()
         return false
-      };
+      }
 
-    //将船显示到map中去
-   for (var i = 0; i < 4; i++){
-		var shipFeature = new Feature({
-			geometry: new Point(fromLonLat([shipX[i],shipY[i]]))
+    //实现小船的移动
+    var i = 0
+    setInterval(() => {
+        map.removeLayer(shipLayer)
+        ship(1,0)
+        ship(2,1)
+        ship(3,2)
+        // addShip()
+        i++
+        map.addLayer(shipLayer)
+        // var extent = [0,0,1200000,7000000]
+        // console.log(shipLayer.getSource().getFeaturesInExtent(extent))
+    },6000)
+
+    function ship(shipId,offSize){
+        if (i != 0){
+            var feature = shipLayer.getSource().getFeatureById(shipId)      
+            shipLayer.getSource().removeFeature(feature)
+        }
+        var shipFeature= new Feature({
+			geometry: new Point(fromLonLat([shipX[(i)%4],shipY[(i)%4]+offSize]))
         })
         shipFeature.setProperties(shipInfo)  
-        shipFeature.setId(i+1)    
+        shipFeature.setId(shipId)    
 		shipFeature.setStyle(style);
         shipLayer.getSource().addFeature(shipFeature)
     }
-    map.addLayer(shipLayer)
+
+    // function ship(shipId,shipSite){
+    //     if (i != 0){
+    //         var feature = shipLayer.getSource().getFeatureById(shipId)      
+    //         shipLayer.getSource().removeFeature(feature)
+    //     }
+    //     var shipFeature= new Feature({
+	// 		geometry: new Point(fromLonLat(shipSite))
+    //     })
+    //     shipFeature.setProperties(shipInfo)  
+    //     shipFeature.setId(shipId)    
+	// 	shipFeature.setStyle(style);
+    //     shipLayer.getSource().addFeature(shipFeature)
+    // }
+
+    function addShip(){
+        var count = 10000;
+        var e = 4500000
+        for (var i = 0; i < count; ++i) {
+            var shipSite = [2 * e * Math.random() - e+1000000,  2 * e * Math.random() - e]
+            var s = transform(shipSite,'EPSG:3857','EPSG:4326')
+            ship(i+1,s)
+        }
+    }
 
     function showShipInfo(event){
         var hdms = toStringHDMS(transform(coordinate, 'EPSG:3857', 'EPSG:4326'))
@@ -90,6 +132,10 @@ export default function addShip(map){
             }
         }
     }
-    map.on('click',showShipInfo)
+    map.on('click',showShipInfo) 
+
+  
 }
+
+
 
