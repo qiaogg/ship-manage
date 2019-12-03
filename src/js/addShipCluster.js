@@ -2,83 +2,105 @@ import 'ol/ol.css';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import {Vector as VectorLayer} from 'ol/layer';
-import {Cluster,Vector as VectorSource} from 'ol/source'
+import {Vector as VectorSource} from 'ol/source'
 import {Circle as CircleStyle, Fill, Stroke, Style, Text} from 'ol/style';
 import {fromLonLat,transform} from 'ol/proj'
 import Icon from 'ol/style/Icon'
-import areaSearch from './areaSearch'
+import Overlay from 'ol/Overlay'
+import shipWarningAnimate from './shipWarningAnimate'
 
+export default function addShipCluster(map,shipsList){
 
-export default function addShipCluster(map){
-    var distance = document.getElementById('distance')
-
-    var count = 3000;
+    const PI = 3.1415926
+    
+    console.log(shipsList)  
+    var coordTransform = require("coordtransform")
+    var count = shipsList.length
     var features = new Array(count)
-    var e = 450000
+
     for (var i = 0; i < count; ++i) {
-      var coordinates = [2 * e * Math.random() - e+15000000,  2 * e * Math.random() - e + 100000]
-    //  console.log(transform(coordinates,"EPSG:3857","EPSG:4326"))
-   // console.log(coordinates)
-      features[i] = new Feature(new Point(coordinates))
+      var coordinates = coordTransform.wgs84togcj02(shipsList[i].longitude,shipsList[i].latitude)
+      features[i] = new Feature(new Point(transform(coordinates,"EPSG:4326","EPSG:3857")))
+      
+      var shipInfo = shipsList[i]
+
+      var style = new Style({
+        image: new Icon({
+          src: '../../static/images/ship_normal.png'
+        })
+      })
+      style.getImage().setRotation((shipsList[i].direction*PI/180))
+      features[i].setStyle(style)
+
+
+      features[i].setId(shipsList[i].id)
+      features[i].setProperties(shipInfo)
     }
     
     var source = new VectorSource({
       features: features,
     });
     
-    var clusterSource = new Cluster({
-      distance: parseInt(distance.value, 10),
-      source: source
+    var shipsLayer = new VectorLayer({
+      source: source,
     });
     
-    var styleCache = {};
-    var clusters = new VectorLayer({
-      source: clusterSource,
-      style: function(feature) {
-        var size = feature.get('features').length;
-        var style = styleCache[size];
-        if (!style) {
-          style = new Style({
-            image: new Icon({
-                src:'../../static/images/ship_normal.png',
-                rotation: 1
-             }),
-            //   fill: new Fill({
-            //     color: '#3399CC'
-            //   })
-            // }),
-            // text: new Text({
-            //   text: size.toString(),
-            //   fill: new Fill({
-            //     color: '#000'
-            //   })
-            // })
-          });
-          styleCache[size] = style;
-        }
-        return style;
-      }
-    });
-    
-    map.addLayer(clusters)
+    map.addLayer(shipsLayer)
 
     map.on('moveend',function(){
         var zoom = map.getView().getZoom()
-        if (zoom > 8 && zoom < 19){
-            clusters.setVisible(true)
+        if (zoom > 8 && zoom <= 19){
+          shipsLayer.setVisible(true)
         }else{
-            clusters.setVisible(false)
+          shipsLayer.setVisible(false)
         }
     })
-    //  console.log(clusterSource.getSource().getFeatures())//获取集群里的features
-    // var extent = [0,0,500000,500000]
-    // console.log(clusterSource.getSource().getFeaturesInExtent(extent))
-    //console.log(extent)
-    //this.$emit('getMap',_this.map)
     
-    distance.addEventListener('input', function() {
-      clusterSource.setDistance(parseInt(distance.value, 10));
-    });
-
-    return clusterSource
+    var contaioner = document.getElementById('popup')
+    var content = document.getElementById('popup-content')
+    var closer = document.getElementById('popup-closer')
+    // 创建一个overlay, 绑定html元素container
+    var overlay = new Overlay({
+        element: contaioner,
+        autoPan: true,
+        autoPanAnimation: {
+          duration: 250
+        }
+    })
+    //鼠标点击x 消除船信息图框
+    closer.onclick = function() {
+        overlay.setPosition(undefined)
+        closer.blur()
+        return false
+    }
+    var coordinate;
+    //为map添加点击事件获取点击处的坐标
+    map.on('click',function(event){
+      coordinate = event.coordinate
+    }) 
+    function showShipInfo(event){
+      var features = map.getFeaturesAtPixel(event.pixel)
+      if (features.length != 0) {
+          if (features[0].getId()){
+              shipWarningAnimate(map,features[0])
+              var properties = features[0].getProperties()
+              content.innerHTML = '<p>You clicked here:</p>'
+              +'<p>'+'船名:'+properties.name+ '</p>'
+              +'<p>'+'船长:'+properties.owner+ '</p>'
+              +'<p>'+'MMSI:'+properties.mmsi+ '</p>'
+              +'<p>'+'报警时间:'+properties.receiveDate+ '</p>'
+              +'<p>'+'报警类型:'+properties.state+ '</p>'
+              +'<p>'+'经度:'+properties.longitude+ '</p>'         
+              +'<p>'+'纬度:'+properties.latitude+ '</p>'
+              +'<p>'+'速度:'+properties.speed+ '</p>'
+              +'<p>'+'方向:'+properties.direction+ '</p>'
+              +'<p>'+'温度:'+properties.temperature+ '</p>'
+              +'<p>'+'电池状态:'+properties.batteryState+ '</p>'
+              overlay.setPosition(coordinate)
+              map.addOverlay(overlay)
+          }
+      }
+    }
+    map.on('click',showShipInfo) 
+    return source
 }

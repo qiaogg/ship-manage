@@ -46,12 +46,12 @@ export default function showShipTrace(map) {
         color: '#f00',
         width: 4
       }),
-      image: new Circle({
-        radius: 2,
-        fill: new Fill({
-          color: '#f00'
-        })
-      })
+      // image: new Circle({
+      //   radius: 2,
+      //   fill: new Fill({
+      //     color: '#f00'
+      //   })
+      // })
     })
   });
 
@@ -61,7 +61,7 @@ export default function showShipTrace(map) {
       src: '../../static/images/ship_normal.png',
     })
     var style = new Style({
-      image: shipIcon
+      image: shipIcon,
     })
     var shipFeature = new Feature({
       geometry: new Point(shipSites[i])

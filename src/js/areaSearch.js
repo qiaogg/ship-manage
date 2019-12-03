@@ -5,7 +5,7 @@ import {Vector as VectorLayer} from 'ol/layer';
 import {Vector as VectorSource} from 'ol/source';
 import Collection from 'ol/Collection'
 
-export default function areaSearch(map,searchType,clusterSource){
+export default function areaSearch(map,searchType,shipFeatureSource){
     var source = new VectorSource({wrapX: false})
 
 
@@ -42,7 +42,7 @@ export default function areaSearch(map,searchType,clusterSource){
        var extent = e.feature.getGeometry().getExtent()
        map.removeInteraction(draw)
        //console.log(clusterSource.getSource().getFeaturesInExtent(extent))
-       alert("船只数量:"+clusterSource.getSource().getFeaturesInExtent(extent).length)
+       alert("船只数量:"+shipFeatureSource.getFeaturesInExtent(extent).length)
       
        map.removeLayer(vector)
     })

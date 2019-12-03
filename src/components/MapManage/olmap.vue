@@ -4,10 +4,7 @@
    <!--startprint-->
   <div id="allmap" ref="allmap"></div>
    <!--endprint-->
-  <form>
-      <label>cluster distance</label>
-      <input id="distance" type="range" min="0" max="200" step="1" value="50"/>
-    </form> 
+    <!-- <p>{{this.data}}</p> -->
   <!-- 船信息显示 start-->
   <div id="popup" class="ol-popup">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -30,17 +27,36 @@ import addShip from "../../js/addShipLayer"
 import showShipTrace from '../../js/showShipTrace'
 import addShipCluster from "../../js/addShipCluster"
 import addFishingZone from "../../js/addFishingZone"
+import axiosPost from "../../js/utils/axiosPost"
 
 
 export default { 
  name: 'App',
  data(){
      return{
+       LoginInitData:{
+         "shipsList":"",
+         "alarmMesList":"",
+         "alarmRecordList":"",
+         "allShipsCount":"",
+         "areaAlarmList":"",
+         "ctbtMapMarkList":"",
+         "ctbtUserShipColorList":"",
+         "cultureAreaList":"",
+         "shipTeamAlarmList":""
+       },
          val:{
             map: null,
             clusterSource:null
          },
      }
+ },
+ watch:{
+   LoginInitData: function(){
+    // console.log(this.LoginInitData)
+     this.val.clusterSource = addShipCluster(this.val.map,this.LoginInitData.shipsList)
+     this.$emit('getMap',this.val);
+   }
  },
  methods:{ 
   drawMap(){ 
@@ -78,19 +94,23 @@ export default {
       })
     },
     //添加大鱼区
-    addFishingZone(){
-
+    getLoginInitData(){   
+      var args = '{"userId":"'+ localStorage.getItem("userEncryptId")  +'" }'
+      axiosPost("/api/CTBT/services/Ships","loginInit",args,this).then((res) => {
+        this.LoginInitData = JSON.parse(res)
+      })
     }
 },
     mounted(){ 
         this.drawMap();
-        // this.mouseSite();
-        addShip(this.val.map);
+         //this.mouseSite();
+       // addShip(this.val.map);
         showShipTrace(this.val.map);       
-        this.val.clusterSource = addShipCluster(this.val.map); 
-       //this.val.clusterSource = null   
+       // this.val.clusterSource = addShipCluster(this.val.map,this); 
+       //this.val.clusterSource = null
        this.$emit('getMap',this.val);
        addFishingZone(this.val.map);
+       this.getLoginInitData();
       } 
  } 
 </script> 

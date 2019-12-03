@@ -51,6 +51,7 @@ export default {
     },
     methods: {
         handleSubmit(event){
+
             this.$refs.ruleForm2.validate((valid) => {
                 if(valid){
                     this.logining = true;
@@ -68,6 +69,7 @@ export default {
                     xmls+='"}</arg0></UserWebServiceService:CheckUsernameAndPassword>\
                     </soap:Body>\
                     </soap:Envelope>'
+
                     this.$axios
                     .post('/api/CTBT/services/User',xmls,{headers:{'Content-type':'application/json;charset=UTF-8'}})
                     .then((response) => {
