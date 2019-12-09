@@ -2,7 +2,7 @@
   <div>
     <div class="title" style="font-size: 23px;padding-left: 20px; margin-bottom: 20px;float:left">
       <span class="el-icon-ship"></span>
-      我的船舶(共{{this.arr[1]}}艘)
+      无动力船舶(共{{this.arr[1]}}艘)
     </div>
     <br>
     <el-card style="margin-top:50px">
@@ -41,7 +41,7 @@
                     xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
                     soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
                     <soap:Body>\
-                    <UserWebServiceService:getShipsBySearchShipsCondition><arg0>{"userId":"'+this.userEncryptId+'","user_type":"'+this.userType+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getShipsBySearchShipsCondition>\
+                    <UserWebServiceService:getUnpowerShipsBySearchShipsCondition><arg0>{"userId":"'+this.userEncryptId+'","user_type":"'+this.userType+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getUnpowerShipsBySearchShipsCondition>\
                     </soap:Body>\
                     </soap:Envelope>'
                 if(this.currentPage < this.totalPage){//当前页数小于总页数就请求
@@ -81,7 +81,7 @@
                     xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
                     soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
                     <soap:Body>\
-                    <UserWebServiceService:getShipsBySearchShipsCondition><arg0>{"userId":"'+this.userEncryptId+'","user_type":"'+this.userType+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getShipsBySearchShipsCondition>\
+                    <UserWebServiceService:getUnpowerShipsBySearchShipsCondition><arg0>{"userId":"'+this.userEncryptId+'","user_type":"'+this.userType+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getUnpowerShipsBySearchShipsCondition>\
                     </soap:Body>\
                     </soap:Envelope>'
             this.$axios.post('/api/CTBT/services/Ships', xmls, {headers: {'Content-type': 'application/json;charset=UTF-8'}})
@@ -106,3 +106,4 @@
 
     }
 </script>
+

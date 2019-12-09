@@ -7,8 +7,8 @@
         <br>
         <el-card style="margin-top:50px">
              <el-row>
-                 <el-col :span="4">
-                      <el-select v-model="value" @change="changeOption" placeholder="请选择">
+<!--                 <el-col :span="4">-->
+                      <el-select v-model="value" style="width: fit-content" @change="changeOption" placeholder="请选择">
                           <el-option
                            v-for="item in options"
                            :key="item.value"
@@ -16,13 +16,13 @@
                            :value="item.value">
                            </el-option>
                      </el-select>
-                 </el-col>
-                 <el-col :span="5" :offset="1">
-                     <el-input v-model="conditionValue" placeholder="请输入内容"></el-input>
-                 </el-col>
-                 <el-col :span="2" :offset="5">
-                      <el-button type="primary" style="width:150px" @click="getShipsBySearchShipsCondition()">查询</el-button>
-                 </el-col>
+<!--                 </el-col>-->
+<!--                 <el-col :span="5" :offset="1">-->
+                     <el-input v-model="conditionValue" style="width: fit-content" placeholder="请输入内容"></el-input>
+<!--                 </el-col>-->
+<!--                 <el-col :span="2" :offset="5">-->
+                      <el-button type="primary" @click="getShipsBySearchShipsCondition()">查询</el-button>
+<!--                 </el-col>-->
              </el-row>
                <el-table ref="multipleTable" :data="handleList.slice((currentPage-1)*pageSize,currentPage*pageSize)" tooltip-effect="dark" style="width: 100%">
 <!--                   <el-table-column  type="selection" width="55"></el-table-column>-->
@@ -51,6 +51,7 @@
                </el-table>
                 <div style="margin-top:20px">
                       <el-pagination
+                        small
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="currentPage"
@@ -167,7 +168,6 @@ export default {
                         }
                         //返回list，list里为查询到的船舶
                         this.handleList=arr[10];
-                        console.log(this.handleList);
                     }
                 })
                 .catch(function (error) { // 请求失败处理

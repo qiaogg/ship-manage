@@ -1,109 +1,183 @@
 <template>
-    <div>
-        <div class="title" style="font-size: 23px;padding-left: 20px; margin-bottom: 20px;float:left">
-              <span class="el-icon-phone-outline"></span>
-              报警查询
-        </div>
-        <br>
-        <el-card style="margin-top:50px">
-             <el-row>
-                 <el-col :span="3">
-                      <el-select v-model="type" placeholder="请选择">
-                          <el-option
-                           v-for="item in types"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                           </el-option>
-                     </el-select>
-                 </el-col>
-                 <el-col :span="4" :offset="1">
-                     <el-input></el-input>
-                 </el-col>
-                 <el-col :span="6" :offset="1">
-                    <el-date-picker
-                       v-model="time"
-                       type="datetimerange"
-                       start-placeholder="开始日期"
-                       end-placeholder="结束日期"
-                       :default-time="['12:00:00']">
-                     </el-date-picker>
-                 </el-col>
-                 <el-col :span="2" :offset="5">
-                      <el-button type="primary" style="width:150px" >查询</el-button>
-                 </el-col>
-             </el-row>
-               <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
-                   <el-table-column  type="selection" width="55"></el-table-column>
-                   <el-table-column  type="index" width="50" label="序号"></el-table-column>
-                   <el-table-column  prop="id" label="产品ID"  width="120"></el-table-column>
-                   <el-table-column  prop="number" label="卡号"  width="120"></el-table-column>
-                   <el-table-column  prop="name" label="船名"  width="120"></el-table-column>
-                   <el-table-column  prop="human" label="备注"  width="120"></el-table-column>
-                   <el-table-column  prop="mmsi" label="MMSI"  width="120"></el-table-column>
-                   <el-table-column  prop="long" label="经度"  width="120"></el-table-column>
-                   <el-table-column  prop="lat" label="纬度"  width="120"></el-table-column>
-                   <el-table-column  prop="text" label="报警类型"  width="120"></el-table-column>
-                   <el-table-column  prop="mmsi" label="定位时间"  width="120"></el-table-column>
-                   <el-table-column  prop="status" label="温度"  width="120"></el-table-column>
-                   <el-table-column  prop="cell" label="正在使用的电池"  width="120"></el-table-column>
-                   <el-table-column  prop="iscell" label="电量是否报警"  width="120"></el-table-column>
-                   <el-table-column  prop="dataid" label="数据ID"  width="120"></el-table-column>
-                   <el-table-column  prop="port" label="设备状态"></el-table-column>
-                   <el-table-column  prop="time" label="处理情况"  width="120"></el-table-column>
-                   <el-table-column  prop="dataid" label="我的处理"  width="120"></el-table-column>
-                   <el-table-column  prop="port" label="我的处理操作人"></el-table-column>
-                   <el-table-column  prop="port" label="我的处理说明"></el-table-column>
-                   <el-table-column  prop="time" label="点击处理"  width="120"></el-table-column>
-               </el-table>
-                <div style="margin-top:20px">
-                    <el-col :span="2"><el-button type="primary" size="mini">导出报警</el-button></el-col>
-                    <el-col :span="2"><el-button type="primary" size="mini">制定追踪</el-button></el-col>
-                    <el-col :span="2"><el-button type="primary" size="mini">查看轨迹</el-button></el-col>
-                    <el-col :span="10">
-                        <el-pagination
-                            background
-                            layout="prev, pager, next, jumper"
-                            :total="1000">
-                        </el-pagination>
-                    </el-col>
-                </div>
-        </el-card>
-    </div>
+  <div>
+<el-button type="text" @click="dialogFormVisible_process = true">点击打开 Dialog</el-button>
+
+    <el-dialog title="报警信息处理" :visible.sync="dialogFormVisible_process" width="60vw">
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶名称:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            联系人:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            联系电话:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            产品ID:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            北斗卡号:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            MMSI:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            经度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            纬度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报位时间:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报位设备:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            设备ID:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶状态:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶类型:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶长宽:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            核载人数:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            省市区县:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            乡镇街道:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            村服务站:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警类型:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警时间:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警ID:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警经度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警纬度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警航速:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警设备:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            设备ID:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+          </div>
+        </el-col>
+      </el-row>
+      <el-form :model="form_process" label-width="120px">
+        <el-form-item  label="处理人" label-width="80px">
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="处理时间" label-width="80px">
+          <el-input></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible_process = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible_process=false">提交</el-button>
+        <el-button type="primary" @click="dialogFormVisible_process=false">定位</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script>
-export default {
-    data()
-    {
-        return{
-            type:'1',
-            time:'',
-            types:[
-                {
-                    value:'1',
-                    label:'船名'
-                },
-                {
-                    value:'2',
-                    label:'产品ID'
-                },
-                {
-                    value:"3",
-                    label:'MMIS'
-                },
-                {
-                    value:'4',
-                    label:'卡号'
-                },
-                {
-                     value:'5',
-                     label:'数据ID'
-
-                }
-            ],
-             tableData: [],
-
-        }
-    }
-}
+    export default {
+        data() {
+            return {
+                dialogFormVisible_process: false
+            };
+        },
+    };
 </script>
+

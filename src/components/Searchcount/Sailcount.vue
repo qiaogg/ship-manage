@@ -7,32 +7,26 @@
     <br>
     <el-card style="margin-top:50px">
       <el-form>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item>
+        <el-form-item>
               <el-date-picker
+                style="width: fit-content"
                 v-model="startDate"
                 type="date"
                 placeholder="开始日期"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd">
               </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item>
               <el-date-picker
+                style="width: fit-content"
                 v-model="endDate"
                 type="date"
                 placeholder="结束日期"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd">
               </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item>
-              <el-select v-model="value" @change="changeOption" placeholder="请选择航迹类型">
+        </el-form-item>
+        <el-form-item>
+              <el-select v-model="value" style="width: fit-content" @change="changeOption" placeholder="请选择航迹类型">
                 <el-option
                   v-for="(item,index) in options"
                   :key="index"
@@ -40,21 +34,11 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item>
-              <el-input v-model="shipId" style="width:150px" placeholder="请输入船舶ID" ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item>
-              <el-button type="primary" style="width:150px" @click="getShipsBySearchShipsCondition()">查询</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        </el-form-item>
+        <el-form-item>
+              <el-input v-model="shipId" style="width:fit-content" placeholder="请输入船舶ID" ></el-input>
+              <el-button type="primary" @click="getShipsBySearchShipsCondition()">查询</el-button>
+        </el-form-item>
       </el-form>
 
       <el-table ref="multipleTable" :data="handleList.slice((currentPage-1)*pageSize,currentPage*pageSize)" tooltip-effect="dark" style="width: 100%">
@@ -66,6 +50,7 @@
       </el-table>
       <div style="margin-top:20px">
           <el-pagination
+            small
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"

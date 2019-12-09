@@ -125,7 +125,7 @@ export default function addFishingZone(map,flag) {
                         font: 'bold 16px serif',
                         text: AllFishingZoneData[j][i][0].toString(),
                         fill: new Fill({
-                            color: "#2fe"
+                            color: "#ffe"
                         })
                     })
                 })

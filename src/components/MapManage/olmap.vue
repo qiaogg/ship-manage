@@ -45,6 +45,7 @@ export default {
          "cultureAreaList":"",
          "shipTeamAlarmList":""
        },
+       flag: null,
          val:{
             map: null,
             clusterSource:null
@@ -89,8 +90,8 @@ export default {
     //鼠标经纬度
     mouseSite(){
       var _this = this;
-      _this.map.on('pointermove',function(){
-          console.log(transform(_this.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
+      _this.val.map.on('click',function(){
+          console.log(transform(_this.val.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
       })
     },
     //添加大鱼区
@@ -102,14 +103,18 @@ export default {
     }
 },
     mounted(){ 
+
+
         this.drawMap();
-         //this.mouseSite();
+        //  this.mouseSite();
+        //  addAlarmZone(this.val.map);
+        //  addShip_(this.val.map);
        // addShip(this.val.map);
         showShipTrace(this.val.map);       
        // this.val.clusterSource = addShipCluster(this.val.map,this); 
        //this.val.clusterSource = null
        this.$emit('getMap',this.val);
-       addFishingZone(this.val.map);
+       addFishingZone(this.val.map,this.flag);
        this.getLoginInitData();
       } 
  } 
