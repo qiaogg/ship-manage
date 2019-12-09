@@ -21,6 +21,7 @@ import Sailcount from '@/components/Searchcount/Sailcount'
 import olmap from '@/components/MapManage/olmap'
 import TheLogin from '@/components/views/TheLogin'
 import AlarmShips from "../components/Alarm/AlarmShips";
+import NoPowerShips from "../components/ShipManage/NoPowerShips";
 
 
 Vue.use(Router)
@@ -66,7 +67,11 @@ export default new Router({
           name: 'Search',
           component: Search,
         },
-
+        {
+          path: '/ShipManage/NoPowerShips',
+          name: 'NoPowerShips',
+          component: NoPowerShips,
+        },
         {
           path: '/ShipManage/NoPowerSearch',
           name: 'NoPowerSearch',

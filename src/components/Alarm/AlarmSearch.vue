@@ -1,108 +1,183 @@
 <template>
   <div>
-    <div class="title" style="font-size: 23px;padding-left: 20px; margin-bottom: 20px;float:left">
-      <span class="el-icon-ship"></span>
-      我的船舶(共{{this.arr[1]}}艘)
-    </div>
-    <br>
-    <el-card style="margin-top:50px">
-      <el-table ref="multipleTable" :data="this.List" tooltip-effect="dark" style="width: 100%">
-        <el-table-column  type="index" label="序号" width="100"></el-table-column>
-        <el-table-column  prop="id" label="船舶ID"></el-table-column>
-        <el-table-column  prop="mmsi" label="MMSI"></el-table-column>
-        <el-table-column  prop="equipmentid" label="卡号"></el-table-column>
-        <el-table-column  prop="name" label="船名"></el-table-column>
-      </el-table>
-      <el-button @click="getNext()" style="margin-left:20px">下一页</el-button>
-    </el-card>
+<el-button type="text" @click="dialogFormVisible_process = true">点击打开 Dialog</el-button>
+
+    <el-dialog title="报警信息处理" :visible.sync="dialogFormVisible_process" width="60vw">
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶名称:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            联系人:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            联系电话:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            产品ID:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            北斗卡号:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            MMSI:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            经度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            纬度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报位时间:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报位设备:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            设备ID:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶状态:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶类型:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            船舶长宽:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            核载人数:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            省市区县:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            乡镇街道:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            村服务站:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警类型:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警时间:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警ID:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警经度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警纬度:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警航速:
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col span="8">
+          <div style="font-size: small">
+            报警设备:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+            设备ID:
+          </div>
+        </el-col>
+        <el-col span="8">
+          <div style="font-size: small">
+          </div>
+        </el-col>
+      </el-row>
+      <el-form :model="form_process" label-width="120px">
+        <el-form-item  label="处理人" label-width="80px">
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="处理时间" label-width="80px">
+          <el-input></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible_process = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible_process=false">提交</el-button>
+        <el-button type="primary" @click="dialogFormVisible_process=false">定位</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
     export default {
-        data()
-        {
-            return{
-                currentPage:1,
-                totalPage:1,
-                List:[],
-                arr:[]
-            }
+        data() {
+            return {
+                dialogFormVisible_process: false
+            };
         },
-        methods:{
-          getNext(){
-              this.userEncryptId=localStorage.getItem("userEncryptId");
-              this.userType=localStorage.getItem("userType");
-              this.pagerStr='{\\"total_page_count\\":0,\\"total_record_count\\":0,\\"current_page_number\\":1,\\"page_size\\":15,\\"first_page_number\\":1,\\"pre_page_number\\":0,\\"next_page_number\\":0,\\"last_page_number\\":0,\\"is_first_page\\":false,\\"is_last_page\\":false,\\"list\\":[]}';
-              let xmls = '<?xml version="1.0" encoding="utf-8"?> \
-                    <soap:Envelope \
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
-                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"\
-                    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"\
-                    xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
-                    soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
-                    <soap:Body>\
-                    <UserWebServiceService:getShipsBySearchShipsCondition><arg0>{"userId":"'+this.userEncryptId+'","user_type":"'+this.userType+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getShipsBySearchShipsCondition>\
-                    </soap:Body>\
-                    </soap:Envelope>'
-              if(this.currentPage < this.totalPage){//当前页数小于总页数就请求
-                  console.log(this.totalPage)
-                  this.currentPage++;//当前页数自增
-                  //请求接口的代码
-                  this.$axios.post('/api/CTBT/services/Ships', xmls, {headers: {'Content-type': 'application/json;charset=UTF-8'}})
-                      .then(res=>{
-                          var reslut = this.xmlToJson(res.data);
-                          var temp = reslut[0].textContent.split(",");
-                          if (temp[0] == "no_record") {
-                              this.$alert('暂无数据!');
-                          } else {
-                              this.arr=[];
-                              let jsonStr = temp.join(",");
-                              var jsonObj = JSON.parse(jsonStr);
-                              for (let i in jsonObj) {
-                                  this.arr.push(jsonObj[i]);
-                              }
-                              this.List = this.List.concat(this.arr[10])//将请求回来的数据和当前展示的数据合并在一起
-                          }
-                      })
-              }else {
-                  this.$alert('数据已加载完!');
-              }
-          }
-        },
-        mounted(){
-            this.userEncryptId=localStorage.getItem("userEncryptId");
-            this.userType=localStorage.getItem("userType");
-            this.pagerStr='{\\"total_page_count\\":0,\\"total_record_count\\":0,\\"current_page_number\\":1,\\"page_size\\":15,\\"first_page_number\\":1,\\"pre_page_number\\":0,\\"next_page_number\\":0,\\"last_page_number\\":0,\\"is_first_page\\":false,\\"is_last_page\\":false,\\"list\\":[]}';
-            let xmls = '<?xml version="1.0" encoding="utf-8"?> \
-                    <soap:Envelope \
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
-                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"\
-                    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"\
-                    xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
-                    soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
-                    <soap:Body>\
-                    <UserWebServiceService:getShipsBySearchShipsCondition><arg0>{"userId":"'+this.userEncryptId+'","user_type":"'+this.userType+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getShipsBySearchShipsCondition>\
-                    </soap:Body>\
-                    </soap:Envelope>'
-            this.$axios.post('/api/CTBT/services/Ships', xmls, {headers: {'Content-type': 'application/json;charset=UTF-8'}})
-                .then(res=>{
-                    var reslut = this.xmlToJson(res.data);
-                    var temp = reslut[0].textContent.split(",");
-                    if (temp[0] == "no_record") {
-                        this.$alert('暂无数据!');
-                    } else {
-                        this.arr=[];
-                        let jsonStr = temp.join(",");
-                        var jsonObj = JSON.parse(jsonStr);
-                        for (let i in jsonObj) {
-                            this.arr.push(jsonObj[i]);
-                        }
-                        //返回list，list里为查询到的船舶
-                        this.List = this.arr[10];
-                        this.totalPage = this.arr[0];
-                    }
-            })
-        }
-
-    }
+    };
 </script>
+

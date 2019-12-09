@@ -7,7 +7,7 @@
         <br>
         <div class="System1">
             <el-card>
-                <el-form ref="form" :model="form" label-width="300px">
+                <el-form ref="form" :model="form" >
                      <el-form-item label="轨迹数据源:">
                         <el-select v-model="system.data" placeholder="请选择">
                              <el-option
@@ -58,7 +58,7 @@
                      <el-form-item>
                        <el-button type="primary" @click="onSubmit">保存</el-button>
                        <router-link to="/MapManage/olmap">
-                         <el-button style="margin-left:20px">退出</el-button>
+                         <el-button >退出</el-button>
                        </router-link>
                      </el-form-item>
                 </el-form>
