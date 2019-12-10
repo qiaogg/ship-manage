@@ -45,6 +45,7 @@ export default function addShipCluster(map,shipsList){
       source: source,
     });
     
+    shipsLayer.setVisible(false)
     map.addLayer(shipsLayer)
 
     map.on('moveend',function(){
