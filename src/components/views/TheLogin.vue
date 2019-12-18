@@ -97,7 +97,7 @@ export default {
                               localStorage.setItem("userName", '');
                               localStorage.setItem("passWord", '');
                           }
-                          this.$router.push({path: '/MapManage/olmap'});
+                          this.$router.push({path: '/ShipManage/MyShips'});
                       }
                     })
                     .catch(function (error) { // 请求失败处理
@@ -128,8 +128,8 @@ export default {
   bottom: 0;
   position: absolute;
     margin: auto;
-    width: 350px;
-  height: 300px;
+    width: 30vw;
+  height: 40vh;
     padding: 35px 35px 15px;
     background: #fff;
     border: 1px solid #eaeaea;

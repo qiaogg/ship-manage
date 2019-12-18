@@ -1,109 +1,119 @@
 <template>
   <div>
     <el-container class="Main">
-      <el-aside width="250px" style=" background-color:#F2F6FC;">
-        <h2>船舶管理系统</h2>
-        <div style="height:60px">
-          <el-row>
-            <el-col :span="2" style="margin-left:20px">
-              <el-avatar icon="el-icon-user-solid" size="large"></el-avatar>
-            </el-col>
-            <el-col :span="6" style="margin-left:30px;margin-top:10px">
-              <div>ID:{{userName}}</div>
-            </el-col>
-          </el-row>
-        </div>
-        <el-menu router :default-active="$route.path">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span>系统管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/System/system">系统设置</el-menu-item>
-              <el-menu-item index="/System/Password">修改密码</el-menu-item>
-              <el-menu-item index="/System/Sound">音效设置</el-menu-item>
-              <el-menu-item @click="withdraw()">退出系统</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-view"></i>
-              <span>海图管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/MapManage/olmap">显示地图</el-menu-item>
-              <el-menu-item @click="measureSea('line')">海图测距</el-menu-item>
-              <el-menu-item @click="measureSea('area')">海图测面</el-menu-item>
-              <el-menu-item @click="mapScreen()">海图拍照</el-menu-item>
-              <el-menu-item @click="mapPrint()">海图打印</el-menu-item>
-              <el-menu-item @click="dialogFormVisible = true">海图定位</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-ship"></i>
-              <span>船舶管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/ShipManage/MyShips">我的船舶</el-menu-item>
-              <el-menu-item index="/ShipManage/Search">船舶查询</el-menu-item>
-              <el-menu-item index="/ShipManage/NoPowerSearch">无动力船舶</el-menu-item>
-              <el-menu-item index="/ShipManage/ShipTrace">区域回放</el-menu-item>
-              <el-menu-item index="/ShipManage/ShipTrace">船舶追踪</el-menu-item>
-              <el-menu-item index="/ShipManage/GroupManage">编组管理</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-phone-outline"></i>
-              <span>报警救援</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/Alarm/AlarmShips">报警船舶</el-menu-item>
-              <el-menu-item index="/Alarm/AlarmSearch">报警查询</el-menu-item>
-              <el-menu-item index="1-2">视屏通话</el-menu-item>
-              <el-menu-item index="/Alarm/PortSearch">港口查询</el-menu-item>
-              <el-menu-item index="/Alarm/Rescue">船舶救援</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-place"></i>
-              <span>警戒区域</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">添加警戒</el-menu-item>
-              <el-menu-item index="/WarnRegion/ExactAdd">精确添加警戒</el-menu-item>
-              <el-menu-item index="/WarnRegion/Seewarn">查询警戒</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="6">
-            <template slot="title">
-              <i class="el-icon-search"></i>
-              <span>查询统计</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/Searchcount/Searchdata">数据源统计</el-menu-item>
-              <el-menu-item index="/Searchcount/Sailcount">航程统计</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="7">
-            <template slot="title">
-              <i class="el-icon-warning-outline"></i>
-              <span>帮助</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">帮助文档</el-menu-item>
-              <el-menu-item index="1-2">关于我们</el-menu-item>
-              <el-menu-item index="1-2">船舶摄像机</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
-      </el-aside>
+      <el-button
+        icon="el-icon-s-unfold"
+        style="position: fixed;left: 0;top: 0;height: 60px;width: 80px;font-size: x-large;"
+        @click="table3 = true"
+      ></el-button>
+      <el-drawer :visible.sync="table3" direction="ltr" size="20%">
+          <h2>CTBT船舶动态管理平台</h2>
+          <div style="height:60px">
+            <el-row>
+              <el-col :span="2" style="margin-left:20px">
+                <el-avatar icon="el-icon-user-solid" size="large"></el-avatar>
+              </el-col>
+              <el-col :span="6" style="margin-left:30px;margin-top:10px">
+                <div>ID:{{userName}}</div>
+              </el-col>
+            </el-row>
+          </div>
+          <el-menu router :default-active="$route.path">
+            <el-submenu index="1">
+              <template slot="title">
+                <i class="el-icon-setting"></i>
+                <span>系统管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/System/system">系统设置</el-menu-item>
+                <el-menu-item index="/System/Password">修改密码</el-menu-item>
+                <el-menu-item index="/System/Sound">音效设置</el-menu-item>
+                <el-menu-item @click="withdraw()">退出系统</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-view"></i>
+                <span>海图管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/MapManage/olmap">显示地图</el-menu-item>
+                <el-menu-item @click="measureSea('line')">海图测距</el-menu-item>
+                <el-menu-item @click="measureSea('area')">海图测面</el-menu-item>
+                <el-menu-item @click="mapScreen()">海图拍照</el-menu-item>
+                <el-menu-item @click="mapPrint()">海图打印</el-menu-item>
+                <el-menu-item @click="dialogFormVisible = true">海图定位</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="3">
+              <template slot="title">
+                <i class="el-icon-ship"></i>
+                <span>船舶管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/ShipManage/MyShips">我的船舶</el-menu-item>
+                <el-menu-item index="/ShipManage/Search">船舶查询</el-menu-item>
+                <el-menu-item index="/ShipManage/NoPowerShips">无动力船舶</el-menu-item>
+                <el-menu-item index="/ShipManage/NoPowerSearch">无动力船舶查询</el-menu-item>
+                <el-menu-item index="/ShipManage/ShipTrace">区域回放</el-menu-item>
+                <el-menu-item index="/ShipManage/ShipTrace">船舶追踪</el-menu-item>
+                <el-menu-item index="/ShipManage/GroupManage">编组管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="4">
+              <template slot="title">
+                <i class="el-icon-phone-outline"></i>
+                <span>报警救援</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/Alarm/AlarmShips">报警船舶</el-menu-item>
+                <el-menu-item index="/Alarm/AlarmSearch">报警查询</el-menu-item>
+                <el-menu-item index="1-2">视屏通话</el-menu-item>
+                <el-menu-item index="/Alarm/PortSearch">港口查询</el-menu-item>
+                <el-menu-item index="/Alarm/Rescue">船舶救援</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="5">
+              <template slot="title">
+                <i class="el-icon-place"></i>
+                <span>警戒区域</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="1-1">添加警戒</el-menu-item>
+                <el-menu-item index="/WarnRegion/ExactAdd">精确添加警戒</el-menu-item>
+                <el-menu-item index="/WarnRegion/Seewarn">查询警戒</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="6">
+              <template slot="title">
+                <i class="el-icon-search"></i>
+                <span>查询统计</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/Searchcount/Searchdata">数据源统计</el-menu-item>
+                <el-menu-item index="/Searchcount/Sailcount">航程统计</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="7">
+              <template slot="title">
+                <i class="el-icon-warning-outline"></i>
+                <span>帮助</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="1-1">帮助文档</el-menu-item>
+                <el-menu-item index="1-2">关于我们</el-menu-item>
+                <el-menu-item index="1-2">船舶摄像机</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+          </el-menu>
+      </el-drawer>
+
       <el-container>
-        <el-header style="width:169vh; margin-right:200px" class="icon">
-          <div style="margin-right:490px">
+        <el-header style="width:100vw" class="icon">
+<!--          <div style="font-size: 33px">-->
+<!--            CTBT船舶动态管理平台-->
+<!--          </div>-->
+          <div>
             <el-tooltip content="圆形搜索" placement="top">
               <el-button @click="areaSearch('Circle')" icon="el-icon-search" circle></el-button>
             </el-tooltip>
@@ -114,7 +124,9 @@
               <el-button @click="areaSearch('Polygon')" icon="el-icon-aim" circle></el-button>
             </el-tooltip>
             <el-tooltip content="船舶查询" placement="top">
-              <el-button icon="el-icon-ship" circle></el-button>
+              <router-link :to="{name:'Search'}">
+               <el-button icon="el-icon-ship" circle></el-button>
+              </router-link>
             </el-tooltip>
             <el-tooltip content="AIS船舶" placement="top">
               <el-button icon="el-icon-view" circle></el-button>
@@ -135,7 +147,7 @@
               <el-button @click="removeAllTrace()" icon="el-icon-error" circle></el-button>
             </el-tooltip>
             <el-tooltip content="快照" placement="top">
-              <el-button icon="el-icon-camera" circle></el-button>
+              <el-button @click="mapScreen()" icon="el-icon-camera" circle></el-button>
             </el-tooltip>
             <el-tooltip content="测距" placement="top">
               <el-button @click="measureSea('line')" icon="el-icon-s-flag" circle></el-button>
@@ -157,7 +169,7 @@
             @click="table2 = true"
           ></el-button>
         </el-header>
-        <el-main style="width:169vh">
+        <el-main style="width:100vw">
           <transition>
             <router-view v-on:getMap="getMapObject"></router-view>
           </transition>
@@ -170,33 +182,47 @@
       style="position: fixed;bottom: 2rem;right: 5rem;z-index: 9999;"
       @click="table = true"
     ></el-button>
-    <el-drawer :visible.sync="table" direction="btt" size="50%">
-      <el-table :data="gridData">
-        <el-table-column property="date" label="船名" width="50"></el-table-column>
-        <el-table-column property="name" label="船舶类型" width="100"></el-table-column>
-        <el-table-column property="address" label="产品ID" width="150"></el-table-column>
-        <el-table-column property="date" label="设备类型" width="150"></el-table-column>
-        <el-table-column property="name" label="设备ID" width="100"></el-table-column>
-        <el-table-column property="address" label="报警时间" width="100"></el-table-column>
-        <el-table-column property="date" label="报警类型" width="150"></el-table-column>
-        <el-table-column property="name" label="设备状态" width="100"></el-table-column>
-        <el-table-column property="address" label="处理情况" width="150"></el-table-column>
-        <el-table-column property="date" label="我的处理结果" width="150"></el-table-column>
-        <el-table-column property="name" label="我的处理时间" width="140"></el-table-column>
-        <el-table-column property="address" label="我的处理操作人" width="140"></el-table-column>
-        <el-table-column property="address" label="备注" width="100"></el-table-column>
-        <el-table-column property="date" label="经度" width="150"></el-table-column>
-        <el-table-column property="name" label="纬度" width="100"></el-table-column>
-        <el-table-column property="address" label="卡号" width="150"></el-table-column>
-        <el-table-column property="date" label="MMSI" width="150"></el-table-column>
-        <el-table-column property="name" label="温度" width="140"></el-table-column>
-        <el-table-column property="address" label="电池" width="140"></el-table-column>
-        <el-table-column property="name" label="航向" width="100"></el-table-column>
-        <el-table-column property="address" label="航速" width="150"></el-table-column>
-        <el-table-column property="date" label="省份" width="150"></el-table-column>
-        <el-table-column property="name" label="城市" width="140"></el-table-column>
-        <el-table-column property="address" label="区" width="140"></el-table-column>
+    <el-drawer
+      :visible.sync="table"
+      direction="btt"
+      size="50%">
+      <el-table :data="this.gridData.slice((currentPage-1)*pageSize,currentPage*pageSize)">
+        <el-table-column  prop="ships.name" label="船名"></el-table-column>
+        <el-table-column  prop="ships.shipType" label="船舶类型"></el-table-column>
+        <el-table-column  prop="ships.productId" label="产品ID"></el-table-column>
+        <el-table-column  prop="deviceType" label="设备类型"></el-table-column>
+        <el-table-column  prop="deviceId" label="设备ID"></el-table-column>
+        <el-table-column  prop="time" label="报警时间"  ></el-table-column>
+        <el-table-column  prop="alarmType.typeName" label="报警类型"  ></el-table-column>
+        <el-table-column  prop="processStatus" label="处理状态"  ></el-table-column>
+        <el-table-column  prop="" label="处理情况"  ></el-table-column>//
+        <el-table-column  prop="myAlarmToUser.processType" label="我的处理结果"  ></el-table-column>
+        <el-table-column  prop="myAlarmToUser.processTime" label="我的处理时间"  ></el-table-column>
+        <el-table-column  prop="myAlarmToUser.processBy" label="我的处理操作人"  ></el-table-column>
+        <el-table-column  prop="" label="备注"  ></el-table-column>//
+        <el-table-column  prop="longitude" label="经度"  ></el-table-column>
+        <el-table-column  prop="latitude" label="纬度"  ></el-table-column>
+        <el-table-column  prop="ships.equipmentid" label="卡号"  ></el-table-column>
+        <el-table-column  prop="ships.mmsi" label="MMSI"  ></el-table-column>
+        <el-table-column  prop="temperature" label="温度"  ></el-table-column>
+        <el-table-column  prop="batteryState" label="电池"  ></el-table-column>
+        <el-table-column  prop="direction" label="航向"  ></el-table-column>
+        <el-table-column  prop="speed" label="航速"  ></el-table-column>
+        <el-table-column  prop="ships.province" label="省份"  ></el-table-column>
+        <el-table-column  prop="ships.city" label="城市"  ></el-table-column>
+        <el-table-column  prop="ships.county" label="区"  ></el-table-column>
       </el-table>
+      <div align="center">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[1, 2, 3, 4]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="gridData.length">
+        </el-pagination>
+      </div>
     </el-drawer>
     <el-drawer :visible.sync="table2" direction="rtl" size="30%">
       <el-col :span="8" :offset="1">
@@ -231,7 +257,9 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible=false;mapPosition()">确 定</el-button>
+        <router-link :to="{name:'olmap',params:{longitude:this.form.longitude,latitude:this.form.latitude}}">
+         <el-button type="primary" @click="dialogFormVisible=false">确 定</el-button>
+        </router-link>
       </div>
     </el-dialog>
     <el-dialog title="显示区域选择" :visible.sync="dialogZoneVisible" width="450px">
@@ -297,6 +325,17 @@
         <el-button type="primary" @click="111">确 定</el-button>
       </div>
     </el-dialog>
+
+<!--    app弹出报警信息-->
+<!--    <el-dialog title="船舶报警！" :visible.sync="dialogFormVisible_process" width="60vw">-->
+<!--      <div>-->
+<!--        <el-button @click="dialogFormVisible_process = false">取 消</el-button>-->
+<!--    <router-link :to="{name:'olmapApp',params:{longitude:this.form_process.longitude,latitude:this.form_process.latitude}}">-->
+<!--      <el-button type="primary" @click="dialogFormVisible_process=false">前往</el-button>-->
+<!--    </router-link>-->
+<!--      </div>-->
+<!--    </el-dialog>-->
+
     <el-dialog title="报警信息处理" :visible.sync="dialogFormVisible_process" width="60vw">
         <el-row>
           <el-col :span="8">
@@ -450,33 +489,36 @@
             </div>
           </el-col>
         </el-row>
+        <br>
         <el-form :model="form_process">
-          <el-col :span="12">
+<!--          <el-col :span="12">-->
            <el-form-item  label="处理结果">
-             <el-input v-model="form_process.processType" autocomplete="off"></el-input>
-<!--             <el-select v-model="value" @change="changeOption" placeholder="请选择">-->
-<!--               <el-option-->
-<!--                 v-for="item in options"-->
-<!--                 :key="item.value"-->
-<!--                 :label="item.label"-->
-<!--                 :value="item.value">-->
-<!--               </el-option>-->
-<!--             </el-select>-->
+<!--             <el-input v-model="form_process.processType" autocomplete="off"></el-input>-->
+             <el-select v-model="value" @change="changeOption" placeholder="请选择">
+               <el-option
+                 v-for="item in options"
+                 :key="item.value"
+                 :label="item.label"
+                 :value="item.value">
+               </el-option>
+             </el-select>
            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+<!--          </el-col>-->
+<!--          <el-col :span="12">-->
            <el-form-item label="处理人">
-            <el-input v-model="form_process.processUseName" autocomplete="off"></el-input>
+            <el-input v-model="form_process.processBy" style="width: fit-content" autocomplete="off"></el-input>
            </el-form-item>
-          </el-col>
+<!--          </el-col>-->
           <el-form-item label="补充说明">
-            <el-input v-model="form_process.processDes" autocomplete="off"></el-input>
+            <el-input v-model="form_process.processDescription" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible_process = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible_process=false">提交</el-button>
-          <el-button type="primary" @click="dialogFormVisible_process=false,mapPosition_process()">定位</el-button>
+          <el-button type="primary" @click="dialogFormVisible_process=false,alarmRecordProcess()">提交</el-button>
+          <router-link :to="{name:'olmap',params:{longitude:this.form_process.longitude,latitude:this.form_process.latitude}}">
+           <el-button type="primary" @click="dialogFormVisible_process=false">定位</el-button>
+          </router-link>
         </div>
       </el-dialog>
   </div>
@@ -490,6 +532,7 @@ import { transform } from "ol/proj";
 import VectorSource from "ol/source/Vector";
 import kscreenshot from "kscreenshot";
 import measureAngle from "../js/measureAngle";
+import axiosPost from "../js/utils/axiosPost";
 export default {
   data() {
     return {
@@ -499,6 +542,7 @@ export default {
       clusterSource: null,
       table: false,
       table2: false,
+      table3:false,
       dialog: false,
       loading: false,
       gridData: [],
@@ -518,9 +562,10 @@ export default {
       },
       form_process: {
                 processTime: '',
-                processUseName: '',
+                processBy: '',
                 processType: '',
-                processDes: '',
+                processDescription: '',
+          alarmRecordId:'',
               shipName:'',
               owner:'',
               phoneNumber:'',
@@ -639,6 +684,7 @@ export default {
         children: "children",
         label: "label"
       },
+      dialogFormVisible_process:false,
       dialogFormVisible: false,
       dialogZoneVisible: false,
       checkList: []
@@ -757,6 +803,22 @@ export default {
     measureAngler() {
       var lineLayer = measureAngle(this.map);
       this.tempVectorLayer.push(lineLayer);
+    },
+      //处理报警信息
+    alarmRecordProcess(){
+      if(this.form_process.processType!=''&&this.form_process.processBy!='') {
+          let args = '{"userId":"' + localStorage.getItem("userEncryptId") + '","alarmRecordId":"' + this.form_process.alarmRecordId + '","processType":"' + this.form_process.processType + '","processBy":"' + this.form_process.processBy + '","processDescription":"' + this.form_process.processDescription + '" }'
+          axiosPost("/api/CTBT/services/AlarmMes", "saveAlarmToUserProcess", args, this).then((res) => {
+              if (res == 'success') {
+                  this.$alert('处理成功');
+              } else {
+                  this.$alert('处理失败');
+              }
+          })
+      }
+      else {
+          this.$alert('请填写处理结果和处理人');
+      }
     }
   },
   mounted() {
@@ -792,7 +854,7 @@ export default {
                 for(let i in jsonObj){
                     arr.push(jsonObj[i]);
                 }
-                console.log(arr);
+                // console.log(arr);
                 alarmRecordList=arr[2];
                 //alarmToUserList与该账号对应的拿出来添加为alarmRecordList[i]的一个对象
                 for (let i = 0; i <alarmRecordList.length ; i++) {
@@ -805,7 +867,7 @@ export default {
                     }
                 }
                 this.gridData=alarmRecordList;
-                console.log(this.gridData)
+                // console.log(this.gridData)
                 //如果有报警，发出报警信息
                 for (let i = 0; i <alarmRecordList.length; i++) {
                     // this.dialogFormVisible_process=false;
@@ -813,6 +875,7 @@ export default {
                     // if(true){
                     if((myObj.processTime=="")&&(myObj.processType=="")){
                         this.dialogFormVisible_process=true;
+                        this.form_process.alarmRecordId=alarmRecordList[i].myAlarmToUser.alarmRecordId;
                         this.form_process.shipName=alarmRecordList[i].ships.name;
                         this.form_process.owner=alarmRecordList[i].ships.owner;
                         this.form_process.phoneNumber=alarmRecordList[i].ships.phoneNumber;
@@ -848,7 +911,7 @@ export default {
             .catch(function (error) {
                 console.log(error);
             });
-        },200000)
+        },100000)
     }
 };
 </script>
@@ -873,11 +936,7 @@ h2 {
   height: 100px;
   background-color: #c0c4cc;
 }
-.avater {
-  padding-left: 0px;
-  margin-left: 1px;
-  position: left;
-}
+
 .icon {
   font-size: 40px;
 }

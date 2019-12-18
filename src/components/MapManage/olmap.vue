@@ -1,6 +1,6 @@
-<template> 
+<template>
 
- <div > 
+ <div >
    <!--startprint-->
   <div id="allmap" ref="allmap"></div>
    <!--endprint-->
@@ -11,11 +11,11 @@
       <div id="popup-content"></div>
  </div>
  <!-- 船信息显示 end-->
-  <router-view></router-view> 
- </div> 
+  <router-view></router-view>
+ </div>
 
-</template> 
-<script> 
+</template>
+<script>
 import "ol/ol.css"
 import { Map, View } from "ol"
 import Tile from "ol/layer/Tile"
@@ -28,12 +28,16 @@ import showShipTrace from '../../js/showShipTrace'
 import addShipCluster from "../../js/addShipCluster"
 import addFishingZone from "../../js/addFishingZone"
 import axiosPost from "../../js/utils/axiosPost"
+import addLocationImg from "../../js/addLocationImg"
 
-
-export default { 
+export default {
  name: 'App',
  data(){
      return{
+         map: null,
+         tempVectorLayer: [],
+         longitude: this.$route.params.longitude,
+         latitude: this.$route.params.latitude,
        LoginInitData:{
          "shipsList":"",
          "alarmMesList":"",
@@ -59,22 +63,22 @@ export default {
      this.$emit('getMap',this.val);
    }
  },
- methods:{ 
-  drawMap(){ 
-        var _this = this;    
+ methods:{
+  drawMap(){
+        var _this = this;
         _this.val.map = new Map({
           target:"allmap",
           layers:[
               new Tile({
                   source: new XYZ({
                       crossOrigin:'anonymous',
-                      url:'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'                     
+                      url:'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'
                   })
               }),
                new Tile({
                   source: new XYZ({
                       crossOrigin:'anonymous',
-                      url:'http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}'       
+                      url:'http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}'
                   }),
               })
           ],
@@ -95,39 +99,58 @@ export default {
       })
     },
     //添加大鱼区
-    getLoginInitData(){   
+    getLoginInitData(){
       var args = '{"userId":"'+ localStorage.getItem("userEncryptId")  +'" }'
       axiosPost("/api/CTBT/services/Ships","loginInit",args,this).then((res) => {
         this.LoginInitData = JSON.parse(res)
       })
     }
 },
-    mounted(){ 
-
-
+    mounted(){
         this.drawMap();
+        //定位方法
+        if(this.longitude>=0&&this.latitude>=0){
+            var center = transform(
+                [this.longitude, this.latitude],
+                "EPSG:4326",
+                "EPSG:3857"
+            );
+            this.val.map.getView().setCenter(center);
+            this.val.map.getView().setZoom(7);
+            var tempLayer = addLocationImg(
+                this.val.map,
+                this.longitude,
+                this.latitude
+            );
+            this.tempVectorLayer.push(tempLayer);
+        }
         //  this.mouseSite();
         //  addAlarmZone(this.val.map);
         //  addShip_(this.val.map);
        // addShip(this.val.map);
-        showShipTrace(this.val.map);       
-       // this.val.clusterSource = addShipCluster(this.val.map,this); 
+        showShipTrace(this.val.map);
+       // this.val.clusterSource = addShipCluster(this.val.map,this);
        //this.val.clusterSource = null
        this.$emit('getMap',this.val);
        addFishingZone(this.val.map,this.flag);
-       this.getLoginInitData();
-      } 
- } 
-</script> 
+        setTimeout(()=>{
+            this.getLoginInitData();
+        }, 10000);
+
+      }
+ }
+</script>
 <style>
 /*设置地图的宽高*/
 #allmap{
- margin-bottom:10px; 
- height: 622px;
- width:165vh; 
- overflow: hidden;
- padding-top: 0px; 
-} 
+ /*margin-bottom:5vh;*/
+  /*margin-right: 5vw;*/
+ height: 100vh;
+ width:100vw;
+  margin: 0;
+ /*overflow: hidden;*/
+ /*padding-top: 0px;*/
+}
     /**船信息图框样式 start*/
       .ol-popup {
         position: absolute;

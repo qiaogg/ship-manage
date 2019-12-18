@@ -19,6 +19,7 @@ import Seewarn from '@/components/WarnRegion/Seewarn'
 import Searchdata from '@/components/Searchcount/Searchdata'
 import Sailcount from '@/components/Searchcount/Sailcount'
 import olmap from '@/components/MapManage/olmap'
+import olmapApp from '@/components/MapManage/olmapApp'
 import TheLogin from '@/components/views/TheLogin'
 import AlarmShips from "../components/Alarm/AlarmShips";
 import NoPowerShips from "../components/ShipManage/NoPowerShips";
@@ -56,6 +57,11 @@ export default new Router({
           path: '/MapManage/olmap',
           name: 'olmap',
           component: olmap,
+        },
+        {
+          path: '/MapManage/olmapApp',
+          name: 'olmapApp',
+          component: olmapApp,
         },
         {
           path: '/ShipManage/MyShips',
