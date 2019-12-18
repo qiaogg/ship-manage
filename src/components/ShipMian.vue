@@ -258,7 +258,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <router-link :to="{name:'olmap',params:{longitude:this.form.longitude,latitude:this.form.latitude}}">
-         <el-button type="primary" @click="dialogFormVisible=false">确 定</el-button>
+         <el-button type="primary" @click="dialogFormVisible=false,mapPosition()">确 定</el-button>
         </router-link>
       </div>
     </el-dialog>
@@ -331,7 +331,7 @@
 <!--      <div>-->
 <!--        <el-button @click="dialogFormVisible_process = false">取 消</el-button>-->
 <!--    <router-link :to="{name:'olmapApp',params:{longitude:this.form_process.longitude,latitude:this.form_process.latitude}}">-->
-<!--      <el-button type="primary" @click="dialogFormVisible_process=false">前往</el-button>-->
+<!--      <el-button type="primary" @click="dialogFormVisible_process=false,mapPosition_process()">前往</el-button>-->
 <!--    </router-link>-->
 <!--      </div>-->
 <!--    </el-dialog>-->
@@ -517,7 +517,7 @@
           <el-button @click="dialogFormVisible_process = false">取 消</el-button>
           <el-button type="primary" @click="dialogFormVisible_process=false,alarmRecordProcess()">提交</el-button>
           <router-link :to="{name:'olmap',params:{longitude:this.form_process.longitude,latitude:this.form_process.latitude}}">
-           <el-button type="primary" @click="dialogFormVisible_process=false">定位</el-button>
+           <el-button type="primary" @click="dialogFormVisible_process=false,mapPosition_process()">定位</el-button>
           </router-link>
         </div>
       </el-dialog>
@@ -691,6 +691,9 @@ export default {
     };
   },
   methods: {
+      handleNodeClick(data){
+          console.log(data);
+      },
     // 每页多少条
       handleSizeChange(val) {
           this.pageSize = val;
