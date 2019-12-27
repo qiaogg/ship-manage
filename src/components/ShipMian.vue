@@ -55,7 +55,7 @@
                 <el-menu-item index="/ShipManage/Search">船舶查询</el-menu-item>
                 <el-menu-item index="/ShipManage/NoPowerShips">无动力船舶</el-menu-item>
                 <el-menu-item index="/ShipManage/NoPowerSearch">无动力船舶查询</el-menu-item>
-                <el-menu-item index="/ShipManage/ShipTrace">区域回放</el-menu-item>
+                <el-menu-item @click="areaSearch('Box')">区域回放</el-menu-item>
                 <el-menu-item index="/ShipManage/ShipTrace">船舶追踪</el-menu-item>
                 <el-menu-item index="/ShipManage/GroupManage">编组管理</el-menu-item>
               </el-menu-item-group>
@@ -138,7 +138,7 @@
               <el-button icon="el-icon-warning" circle></el-button>
             </el-tooltip>
             <el-tooltip content="人员报警" placement="top">
-              <el-button icon="el-icon-phone-outline" circle></el-button>
+              <el-button @click="dialogFormVisible_process=true" icon="el-icon-phone-outline" circle></el-button>
             </el-tooltip>
             <el-tooltip content="区域选择" placement="top">
               <el-button @click="dialogZoneVisible = true" icon="el-icon-full-screen" circle></el-button>
@@ -335,6 +335,9 @@
 <!--    </router-link>-->
 <!--      </div>-->
 <!--    </el-dialog>-->
+
+<!--    报警提示音-->
+    <audio id="audio" src="../../static/sounds/alarm.wav"></audio>
 
     <el-dialog title="报警信息处理" :visible.sync="dialogFormVisible_process" width="60vw">
         <el-row>
@@ -536,6 +539,7 @@ import axiosPost from "../js/utils/axiosPost";
 export default {
   data() {
     return {
+        tracedShipsList:[],//定制追踪船舶
       userName: localStorage.getItem("userName"),
       map: null,
       tempVectorLayer: [],
@@ -690,9 +694,24 @@ export default {
       checkList: []
     };
   },
+    // 监听弹出框发生变化，语音播报
+    watch: {
+        dialogFormVisible_process: function () {
+            setInterval(()=> {
+             if(this.dialogFormVisible_process==true) {
+                 // this.aplayAudio();
+             }
+            },3000)
+        }
+    },
   methods: {
       handleNodeClick(data){
           console.log(data);
+      },
+      // 语音播放
+      aplayAudio () {
+          const audio = document.getElementById('audio');
+              audio.play();
       },
     // 每页多少条
       handleSizeChange(val) {
@@ -825,6 +844,9 @@ export default {
     }
   },
   mounted() {
+      //定制追踪船舶
+      sessionStorage.setItem("tracedShipsList",JSON.stringify(this.tracedShipsList));
+      //定时获取报警信息
         let alarmRecordList=[];
         let userEncryptId=localStorage.getItem("userEncryptId");
         let userType=localStorage.getItem("userType");

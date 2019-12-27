@@ -9,7 +9,7 @@
     <!--endprint-->
     <!-- <p>{{this.data}}</p> -->
     <!-- 船信息显示 start-->
-    <div id="popup" class="ol-popup">
+    <div id="popup" class="ol-popup" v-show="show">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div id="popup-content"></div>
     </div>
@@ -38,6 +38,7 @@
         name: 'App',
         data(){
             return{
+                show:false,
                 map: null,
                 tempVectorLayer: [],
                 longitude: this.$route.params.longitude,
@@ -56,8 +57,9 @@
         },
         watch:{
             shipsList: function(){
-                this.val.clusterSource = addShipCluster(this.val.map,this.shipsList)
+                this.val.clusterSource = addShipCluster(this.val.map,this.shipsList);
                 this.$emit('getMap',this.val);
+                this.show=true;
             }
         },
         methods:{

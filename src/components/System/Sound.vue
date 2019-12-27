@@ -6,21 +6,21 @@
         </div>
         <br>
         <div style="margin-top:50px">
-            <el-card>
-                  <el-row>
-                      <h5>系统音效:</h5>
-                      <el-col :span="12">
-                          <el-radio-group v-model="sound">
-                              <el-radio :label="1">音效一</el-radio>
-                              <el-radio :label="2">音效二</el-radio>
-                              <el-radio :label="3">音效三</el-radio>
-                              <el-radio :label="4">音效四</el-radio>
-                              <el-radio :label="5">音效五</el-radio>
-                              <el-radio :label="6">音效六</el-radio>
-                          </el-radio-group>
-                      </el-col>
-                  </el-row>
-            </el-card>
+<!--            <el-card>-->
+<!--                  <el-row>-->
+<!--                      <h5>系统音效:</h5>-->
+<!--                      <el-col :span="12">-->
+<!--                          <el-radio-group v-model="sound">-->
+<!--                              <el-radio :label="1">音效一</el-radio>-->
+<!--                              <el-radio :label="2">音效二</el-radio>-->
+<!--                              <el-radio :label="3">音效三</el-radio>-->
+<!--                              <el-radio :label="4">音效四</el-radio>-->
+<!--                              <el-radio :label="5">音效五</el-radio>-->
+<!--                              <el-radio :label="6">音效六</el-radio>-->
+<!--                          </el-radio-group>-->
+<!--                      </el-col>-->
+<!--                  </el-row>-->
+<!--            </el-card>-->
             <el-card style="margin-top:20px">
                 <h5>自定义音效:</h5>
                 <el-upload

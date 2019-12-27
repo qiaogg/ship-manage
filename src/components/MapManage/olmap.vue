@@ -6,7 +6,7 @@
    <!--endprint-->
     <!-- <p>{{this.data}}</p> -->
   <!-- 船信息显示 start-->
-  <div id="popup" class="ol-popup">
+  <div id="popup" class="ol-popup" v-show="show">
       <a href="#" id="popup-closer" class="ol-popup-closer"></a>
       <div id="popup-content"></div>
  </div>
@@ -34,6 +34,7 @@ export default {
  name: 'App',
  data(){
      return{
+         show:false,
          map: null,
          tempVectorLayer: [],
          longitude: this.$route.params.longitude,
@@ -58,9 +59,10 @@ export default {
  },
  watch:{
    LoginInitData: function(){
-    // console.log(this.LoginInitData)
-     this.val.clusterSource = addShipCluster(this.val.map,this.LoginInitData.shipsList)
+       // console.log(this.LoginInitData)
+     this.val.clusterSource = addShipCluster(this.val.map,this.LoginInitData.shipsList);
      this.$emit('getMap',this.val);
+     this.show=true;
    }
  },
  methods:{
@@ -108,7 +110,7 @@ export default {
 },
     mounted(){
         this.drawMap();
-        //定位方法
+        //定位方法start
         if(this.longitude>=0&&this.latitude>=0){
             var center = transform(
                 [this.longitude, this.latitude],
@@ -124,6 +126,7 @@ export default {
             );
             this.tempVectorLayer.push(tempLayer);
         }
+        //定位方法end
         //  this.mouseSite();
         //  addAlarmZone(this.val.map);
         //  addShip_(this.val.map);
@@ -136,7 +139,6 @@ export default {
         setTimeout(()=>{
             this.getLoginInitData();
         }, 10000);
-
       }
  }
 </script>
