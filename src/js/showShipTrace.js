@@ -7,74 +7,76 @@ import Feature from 'ol/Feature'
 import { Style, Stroke, Circle, Fill } from 'ol/style'
 import { toStringHDMS } from 'ol/coordinate'
 import { transform } from 'ol/proj'
+import {lessThan} from "ol/format/filter";
+import {pointerMove} from "ol/events/condition";
 
-export default function showShipTrace(map) {
-  var source = new VectorSource();
+export default function showShipTrace(map,playbackShipsList) {
 
-  var coordinate = [//Polygon 多边形,Point 点,LineString 线
-    [124, 28.5],
+  const PI = 3.1415926;
 
-    [124.1, 28.4],
+  var coordinate = [];//Polygon 多边形,Point 点,LineString 线
 
-    [124.2, 28.3],
-
-    [124.3, 28.2],
-
-    [124.4, 28.1],
-  ]
-  function tranPoint(coordinate) {
-    var len = coordinate.length
-    for (var i = 0; i < len; i++) {
-      coordinate[i] = transform(coordinate[i], 'EPSG:4326', 'EPSG:3857')
+  for (let j = 0; j < playbackShipsList.length; j++) {
+    let location = playbackShipsList[j].location;
+    for (let i = 0; i < location.length; i++) {
+      coordinate[i] = [location[i].longitude, location[i].latitude];
     }
-    return coordinate
-  }
+    console.log(coordinate);
 
-  var shipSites = tranPoint(coordinate)
+    var source = new VectorSource();
 
-  var LineStringFeature = new Feature(
-    new LineString(shipSites)
-  );//绘制多边形的数据
-
-
-  source.addFeature(LineStringFeature)
-
-  var vectorLayer = new VectorLayer({
-    source: source,
-    style: new Style({
-      stroke: new Stroke({
-        color: '#f00',
-        width: 4
-      }),
-      // image: new Circle({
-      //   radius: 2,
-      //   fill: new Fill({
-      //     color: '#f00'
-      //   })
-      // })
-    })
-  });
-
-
-  for (var i = 0; i < shipSites.length; i++) {
-    var shipIcon = new Icon({
-      src: '../../static/images/ship_normal.png',
-    })
-    var style = new Style({
-      image: shipIcon,
-    })
-    var shipFeature = new Feature({
-      geometry: new Point(shipSites[i])
-    })
-    if (i % 2 == 1) {
-      shipIcon.setRotation(0.5)
-    } else {
-      shipIcon.setRotation(2)
+    function tranPoint(coordinate) {
+      for (let i = 0; i < coordinate.length; i++) {
+        coordinate[i] = transform(coordinate[i], 'EPSG:4326', 'EPSG:3857');
+      }
+      return coordinate;
     }
-    shipFeature.setStyle(style);
-    //shipFeature.setId(i)
-    vectorLayer.getSource().addFeature(shipFeature)
-  }
 
-  map.addLayer(vectorLayer)
+    var shipSites = tranPoint(coordinate);
+
+    var LineStringFeature = new Feature(
+      new LineString(shipSites)
+    );//绘制多边形的数据
+
+
+    source.addFeature(LineStringFeature);
+
+    var vectorLayer = new VectorLayer({
+      source: source,
+      style: new Style({
+        stroke: new Stroke({
+          color: '#FFFF00',
+          width: 4
+        }),
+        // image: new Circle({
+        //   radius: 2,
+        //   fill: new Fill({
+        //     color: '#f00'
+        //   })
+        // })
+      })
+    });
+
+
+    for (let i = 0; i < shipSites.length; i++) {
+      var shipIcon = new Icon({
+        src: '../../static/images/ship_track.png',
+      })
+      var style = new Style({
+        image: shipIcon,
+      })
+      var shipFeature = new Feature({
+        geometry: new Point(shipSites[i])
+      })
+
+      shipIcon.setRotation(location[i].direction * PI / 180)
+
+      shipFeature.setStyle(style);
+      //shipFeature.setId(i)
+      vectorLayer.getSource().addFeature(shipFeature)
+    }
+
+    map.addLayer(vectorLayer)
+  }
 }
+

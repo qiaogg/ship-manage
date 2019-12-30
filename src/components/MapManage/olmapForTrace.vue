@@ -1,22 +1,12 @@
 <template>
 
-  <div>
-    <div>
-      已加载的船舶{{this.currentRecord}}/{{this.totalRecord}}
-    </div>
+  <div >
     <!--startprint-->
-    <div id="allmap" ref="allmap"></div>
+    <div id="traceMap" ref="traceMap"></div>
     <!--endprint-->
-    <!-- <p>{{this.data}}</p> -->
-    <!-- 船信息显示 start-->
-    <div id="popup" class="ol-popup" v-show="show">
-      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-      <div id="popup-content"></div>
-    </div>
-    <!-- 船信息显示 end-->
-    <router-view></router-view>
-  </div>
 
+<!--    <router-view></router-view>-->
+  </div>
 
 </template>
 <script>
@@ -35,20 +25,11 @@
     import addLocationImg from "../../js/addLocationImg"
 
     export default {
-        name: 'App',
+        // name: 'App',
         data(){
             return{
-                show:false,
-                map: null,
-                tempVectorLayer: [],
-                longitude: this.$route.params.longitude,
-                latitude: this.$route.params.latitude,
-                // playbackShipsList:this.$route.params.playbackShipsList,
-                currentPage:1,
-                totalPage:2,
-                totalRecord:0,
-                currentRecord:0,
-                shipsList:[],
+                playbackShipsList:this.$route.params.playbackShipsList,
+
                 flag: null,
                 val:{
                     map: null,
@@ -56,18 +37,12 @@
                 },
             }
         },
-        watch:{
-            shipsList: function(){
-                this.val.clusterSource = addShipCluster(this.val.map,this.shipsList);
-                this.$emit('getMap',this.val);
-                this.show=true;
-            }
-        },
+
         methods:{
             drawMap(){
                 var _this = this;
                 _this.val.map = new Map({
-                    target:"allmap",
+                    target:"traceMap",
                     layers:[
                         new Tile({
                             source: new XYZ({
@@ -98,74 +73,32 @@
                     console.log(transform(_this.val.map.getEventCoordinate(event),'EPSG:3857','EPSG:4326'));
                 })
             },
-            getShipsList() {
-               setInterval(()=>{
-                var pagerStr = '{\\"total_page_count\\":0,\\"total_record_count\\":0,\\"current_page_number\\":' + this.currentPage + ',\\"page_size\\":100,\\"first_page_number\\":1,\\"pre_page_number\\":0,\\"next_page_number\\":0,\\"last_page_number\\":0,\\"is_first_page\\":false,\\"is_last_page\\":false,\\"list\\":[]}';
-                if (this.currentPage <= this.totalPage) {
-                    var args = '{"userId":"' + localStorage.getItem("userEncryptId") +'","user_type":"'+localStorage.getItem("userType")+ '","pagerStr":"' + pagerStr + '"}'
-                    axiosPost("/api/CTBT/services/Ships", "getShipsBySearchShipsCondition", args, this).then((res) => {
-                        var arr = JSON.parse(res);
-                        this.shipsList = arr.list;
-                        this.totalPage = arr.total_page_count;
-                        this.totalRecord=arr.total_record_count;
-                        this.currentRecord=this.currentPage*100;
-                        this.currentPage++;
-                    })
-                }
-              },10000)
-            }
+
         },
         mounted(){
+
             this.drawMap();
-            //定位方法
-            if(this.longitude>=0&&this.latitude>=0){
-                var center = transform(
-                    [this.longitude, this.latitude],
-                    "EPSG:4326",
-                    "EPSG:3857"
-                );
-                this.val.map.getView().setCenter(center);
-                this.val.map.getView().setZoom(7);
-                var tempLayer = addLocationImg(
-                    this.val.map,
-                    this.longitude,
-                    this.latitude
-                );
-                this.tempVectorLayer.push(tempLayer);
+
+            //轨迹回放start
+            if (typeof(this.playbackShipsList)!="undefined") {
+                console.log(this.playbackShipsList)
+                showShipTrace(this.val.map, this.playbackShipsList);
             }
-            //  this.mouseSite();
-            //  addAlarmZone(this.val.map);
-            //  addShip_(this.val.map);
-            // addShip(this.val.map);
+            //轨迹回放end
 
-            // setTimeout(()=>{
-            //     //轨迹回放start
-            //     if (typeof(this.playbackShipsList)!="undefined") {
-            //         showShipTrace(this.val.map, this.playbackShipsList);
-            //     }
-            //     //轨迹回放end
-            // }, 3000);
-
-            // this.val.clusterSource = addShipCluster(this.val.map,this);
-            //this.val.clusterSource = null
-            this.$emit('getMap',this.val);
-            setTimeout(()=>{
-                addFishingZone(this.val.map,this.flag);
-            }, 5000);
-            setTimeout(()=>{
-                this.getShipsList();
-            }, 10000);
-
+            // this.$emit('getMap',this.val);
+            addFishingZone(this.val.map,this.flag);
         }
     }
 </script>
 <style>
   /*设置地图的宽高*/
-  #allmap{
+  #traceMap{
     /*margin-bottom:5vh;*/
     /*margin-right: 5vw;*/
     height: 100vh;
     width:100vw;
+    margin: 0;
     /*overflow: hidden;*/
     /*padding-top: 0px;*/
   }

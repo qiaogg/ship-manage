@@ -39,6 +39,7 @@ export default {
          tempVectorLayer: [],
          longitude: this.$route.params.longitude,
          latitude: this.$route.params.latitude,
+         // playbackShipsList:this.$route.params.playbackShipsList,
        LoginInitData:{
          "shipsList":"",
          "alarmMesList":"",
@@ -109,7 +110,9 @@ export default {
     }
 },
     mounted(){
+
         this.drawMap();
+
         //定位方法start
         if(this.longitude>=0&&this.latitude>=0){
             var center = transform(
@@ -127,13 +130,14 @@ export default {
             this.tempVectorLayer.push(tempLayer);
         }
         //定位方法end
-        //  this.mouseSite();
-        //  addAlarmZone(this.val.map);
-        //  addShip_(this.val.map);
-       // addShip(this.val.map);
-        showShipTrace(this.val.map);
-       // this.val.clusterSource = addShipCluster(this.val.map,this);
-       //this.val.clusterSource = null
+
+       //  //轨迹回放start
+       //  if (typeof(this.playbackShipsList)!="undefined") {
+       //      console.log(this.playbackShipsList)
+       //      showShipTrace(this.val.map, this.playbackShipsList);
+       //  }
+       // //轨迹回放end
+
        this.$emit('getMap',this.val);
        addFishingZone(this.val.map,this.flag);
         setTimeout(()=>{

@@ -23,7 +23,7 @@ import olmapApp from '@/components/MapManage/olmapApp'
 import TheLogin from '@/components/views/TheLogin'
 import AlarmShips from "../components/Alarm/AlarmShips";
 import NoPowerShips from "../components/ShipManage/NoPowerShips";
-
+import olmapForTrace from "@/components/MapManage/olmapForTrace";
 
 Vue.use(Router)
 export default new Router({
@@ -62,6 +62,11 @@ export default new Router({
           path: '/MapManage/olmapApp',
           name: 'olmapApp',
           component: olmapApp,
+        },
+        {
+          path: '/MapManage/olmapForTrace',
+          name: 'olmapForTrace',
+          component: olmapForTrace,
         },
         {
           path: '/ShipManage/MyShips',

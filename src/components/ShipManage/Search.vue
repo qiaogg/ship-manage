@@ -96,7 +96,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                <el-button @click="dialogFormVisible = false">取 消</el-button>
-             <router-link :to="{name:'olmap',params:{playbackShipsList:this.playbackShipsList}}">
+             <router-link :to="{name:'olmapForTrace',params:{playbackShipsList:this.playbackShipsList}}">
                <el-button type="primary" @click="dialogFormVisible=false">回放</el-button>
              </router-link>
             </span>
@@ -241,18 +241,19 @@
                         let playbackShip=JSON.parse(res);
                         this.playbackShipsList = this.playbackShipsList.concat(playbackShip);
                         this.locationList=this.locationList.concat(playbackShip.location);
+                        // sessionStorage.setItem("playbackShipsList", JSON.stringify(this.playbackShipsList));
                         console.log(this.playbackShipsList)
                         console.log(this.locationList)
                     })
                 }
                 this.dialogFormVisible=true;
-                sessionStorage.setItem("playbackShipsList", JSON.stringify(this.playbackShipsList));
-                console.log(sessionStorage.getItem("playbackShipsList"))
+
             }
         }
     }
 }
 </script>
+<!--固定dialog高度，用滚动条-->
 <style lang="scss" scoped>
   .dialogDiv {
     height: 300px;
