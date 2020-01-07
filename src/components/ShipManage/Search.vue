@@ -151,7 +151,8 @@ export default {
             console.log(this.conditionValue)
             this.$axios.post('/api/CTBT/services/Ships', xmls, {headers: {'Content-type': 'application/json;charset=UTF-8'}})
                 .then((response) => {
-                    this.reslut = this.xmlToJson(response.data);
+                  console.log('search success');
+                  this.reslut = this.xmlToJson(response.data);
                     var temp = this.reslut[0].textContent.split(",");
                     // console.log(xmls);
                     console.log(this.reslut[0]);

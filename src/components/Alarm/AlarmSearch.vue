@@ -1,183 +1,198 @@
 <template>
   <div>
-<el-button type="text" @click="dialogFormVisible_process = true">点击打开 Dialog</el-button>
-
-    <el-dialog title="报警信息处理" :visible.sync="dialogFormVisible_process" width="60vw">
+    <div class="title" style="font-size: 23px;padding-left: 20px; margin-bottom: 20px;float:left">
+      <span class="el-icon-ship"></span>
+      船舶报警查询
+    </div>
+    <br>
+    <el-card style="margin-top:50px">
       <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            船舶名称:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            联系人:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            联系电话:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            产品ID:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            北斗卡号:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            MMSI:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            经度:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            纬度:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            报位时间:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            报位设备:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            设备ID:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            船舶状态:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            船舶类型:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            船舶长宽:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            核载人数:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            省市区县:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            乡镇街道:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            村服务站:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警类型:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警时间:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警ID:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警经度:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警纬度:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警航速:
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col span="8">
-          <div style="font-size: small">
-            报警设备:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-            设备ID:
-          </div>
-        </el-col>
-        <el-col span="8">
-          <div style="font-size: small">
-          </div>
-        </el-col>
-      </el-row>
-      <el-form :model="form_process" label-width="120px">
-        <el-form-item  label="处理人" label-width="80px">
-          <el-input></el-input>
-        </el-form-item>
-        <el-form-item label="处理时间" label-width="80px">
-          <el-input></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible_process = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible_process=false">提交</el-button>
-        <el-button type="primary" @click="dialogFormVisible_process=false">定位</el-button>
+        <!--                 <el-col :span="4">-->
+        <el-select v-model="value" style="width: fit-content" @change="changeOption" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <!--                 </el-col>-->
+        <!--                 <el-col :span="5" :offset="1">-->
+        <el-input v-model="conditionValue" style="width: fit-content" placeholder="请输入内容"></el-input>
+        <!--                 </el-col>-->
+        <!--                 <el-col :span="2" :offset="5">-->
+        <el-button type="primary" @click="getAlarmRecordBySearchCondition()">查询</el-button>
+        <!--                 </el-col>-->
+      </el-row>          <br>
+      <el-date-picker
+        style="width: fit-content"
+        v-model="startDateTime"
+        type="datetime"
+        placeholder="开始时间"
+        format="yyyy/MM/dd HH:mm:ss"
+        value-format="yyyy/MM/dd HH:mm:ss">
+      </el-date-picker>
+      <el-date-picker
+        style="width: fit-content"
+        v-model="endDateTime"
+        type="datetime"
+        placeholder="结束时间"
+        format="yyyy/MM/dd HH:mm:ss"
+        value-format="yyyy/MM/dd HH:mm:ss">
+      </el-date-picker>
+      <el-table ref="multipleTable" :data="handleList.slice((currentPage-1)*pageSize,currentPage*pageSize)" tooltip-effect="dark" style="width: 100%">
+        <!--                   <el-table-column  type="selection" width="55"></el-table-column>-->
+        <el-table-column  type="index" label="序号" width="50"></el-table-column>
+        <el-table-column  prop="alarmId" label="产品ID" width="120"></el-table-column>
+        <el-table-column  prop="equipmentid" label="卡号" width="120"></el-table-column>
+        <el-table-column  prop="name" label="船名" width="120"></el-table-column>
+        <el-table-column property="address" label="备注" width="120"></el-table-column>
+        <el-table-column  prop="mmsi" label="MMSI"  width="120"></el-table-column>
+        <el-table-column  prop="longitude" label="经度"  width="120"></el-table-column>
+        <el-table-column  prop="latitude" label="纬度"  width="120"></el-table-column>
+        <el-table-column property="alarmType.typeName" label="报警类型" width="150"></el-table-column>
+        <el-table-column  prop="positionDate" label="定位时间"  width="120"></el-table-column>
+        <el-table-column  prop="temperature" label="温度"  width="120"></el-table-column>
+        <el-table-column  prop="batteryState" label="真正使用的电池"  width="120"></el-table-column>
+        <el-table-column  prop="batteryWarn" label="电量是否报警"  width="120"></el-table-column>
+        <el-table-column property="alarmRecordId" label="数据ID" width="100"></el-table-column>
+        <el-table-column property="name" label="设备状态" width="100"></el-table-column>
+        <el-table-column property="address" label="处理情况" width="150"></el-table-column>
+        <el-table-column property="date" label="我的处理结果" width="150"></el-table-column>
+        <el-table-column property="name" label="我的处理时间" width="140"></el-table-column>
+        <el-table-column property="address" label="我的处理操作人" width="140"></el-table-column>
+        <el-table-column property="address" label="我的处理说明" width="140"></el-table-column>
+        <el-table-column property="deal" label="点击处理" width="140"></el-table-column>
+      </el-table>
+      <div style="margin-top:20px">
+        <el-pagination
+          small
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 50, 100]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="handleList.length">
+        </el-pagination>
       </div>
-    </el-dialog>
+      <!--                <div>-->
+      <!--                  <el-col :span="8"><el-button type="primary" size="mini">导出船只</el-button></el-col>-->
+      <!--                  <el-col :span="8"><el-button type="primary" size="mini">查看轨迹</el-button></el-col>-->
+      <!--                  <el-col :span="8"><el-button type="primary" size="mini">制定追踪</el-button></el-col>-->
+      <!--                </div>-->
+    </el-card>
   </div>
 </template>
 <script>
-    export default {
-        data() {
-            return {
-                dialogFormVisible_process: false
-            };
-        },
-    };
-</script>
+  export default {
+    data()
+    {
+      return{
+        value:'',
+        conditionValue:'',
+        options:[
+          {
+            value:'',
+            label:'请选择'
+          },
+          {
+            value:'shipName',
+            label:'船名'
+          },
+          {
+            value:'productId',
+            label:'产品ID'
+          },
+          {
+            value:"shipMmsi",
+            label:'MMIS'
+          },
+          {
+            value:'equipementId',
+            label:'卡号'
+          },
+          {
+            value:'shipId',
+            label:'船舶ID'
+          }
+        ],
+        handleList: [],
+        // 当前页
+        currentPage: 1,
+        // 每页多少条
+        pageSize: 10
 
+      }
+    },
+    methods: {
+      // 每页多少条
+      handleSizeChange(val) {
+        this.pageSize = val;
+        this.currentPage = 1;
+      },
+      // 当前页
+      handleCurrentChange(val) {
+        this.currentPage = val;
+      },
+      //选择条件
+      changeOption(){
+        console.log(this.value);
+        let obj = {};
+        obj = this.options.find(
+          item=>{
+            return item.value=this.value; //筛选出对应数据
+          }
+        )
+        this.condition = this.value;
+      },
+      // "shipId":"1755076"
+      //条件查询
+      getAlarmRecordBySearchCondition(){
+        // console.log(this.condition)
+        // console.log(this.conditionValue)
+        this.userEncryptId=localStorage.getItem("userEncryptId");
+        this.userType=localStorage.getItem("userType");
+        // console.log(this.pagerStr);
+        this.pagerStr='{\\"total_page_count\\":0,\\"total_record_count\\":0,\\"current_page_number\\":1,\\"page_size\\":15,\\"first_page_number\\":1,\\"pre_page_number\\":0,\\"next_page_number\\":0,\\"last_page_number\\":0,\\"is_first_page\\":false,\\"is_last_page\\":false,\\"list\\":[]}';
+        let xmls = '<?xml version="1.0" encoding="utf-8"?> \
+                    <soap:Envelope \
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"\
+                    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"\
+                    xmlns:UserWebServiceService="http://webservice.ctbt.com/"\
+                    soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">\
+                    <soap:Body>\
+                    <UserWebServiceService:getAlarmRecordBySearchCondition><arg0>{"userId":"'+this.userEncryptId+'","pagerStr":"'+this.pagerStr+'","'+this.condition+'":"'+this.conditionValue+'"}</arg0></UserWebServiceService:getAlarmRecordBySearchCondition>\
+                    </soap:Body>\
+                    </soap:Envelope>'
+        // console.log(this.condition)
+        // console.log(this.conditionValue)
+        this.$axios.post('/api/CTBT/services/AreaAlarmRecord', xmls, {headers: {'Content-type': 'application/json;charset=UTF-8'}})
+          .then((response) => {
+            console.log('alarm ok');
+            this.reslut = this.xmlToJson(response.data);
+            var temp = this.reslut[0].textContent.split(",");
+            // console.log(temp);
+            if (temp[0] == "no_record") {
+              this.$alert('暂无数据!');
+            }
+            else {
+              let jsonStr=temp.join(",");
+              var jsonObj =  JSON.parse(jsonStr);
+              console.log(jsonObj);
+              let arr=[];
+              for(let i in jsonObj){
+                arr.push(jsonObj[i]);
+              }
+              //返回list，list里为查询到的船舶
+              this.handleList=arr[10];
+            }
+          })
+          .catch(function (error) { // 请求失败处理
+            console.log(error);
+          });
+      },
+    }
+  }
+</script>
